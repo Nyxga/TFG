@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#login {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#login button {
+    margin-top: 20px;
+}
+
+#login img {
+    margin-bottom: 20px;
+}
+
+.input-group-text {
+    cursor: pointer;
+}
+
+#registro {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

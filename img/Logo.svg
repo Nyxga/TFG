@@ -1,0 +1,11 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" width="900" height="300">
+	<title>Logo</title>
+	<style>
+		tspan { white-space:pre } 
+		.t0 { font-size: 200px;line-height: 0px;fill: #0d6efd;font-weight: 500;font-family: "AvantGarde-MediumObl"} 
+	</style>
+	<text id="Orion" style="transform: matrix(1,0,0,1,180,224)" >
+		<tspan x="0" y="0" class="t0">O</tspan><tspan  y="0" class="t0">r</tspan><tspan  y="0" class="t0">i</tspan><tspan  y="0" class="t0">o</tspan><tspan  y="0" class="t0">n</tspan><tspan  y="0" class="t0">
+</tspan>
+	</text>
+</svg>
