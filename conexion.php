@@ -1,13 +1,12 @@
 <?php
-$server = "localhost";
-$usuario = "root";
-$password = "";
-$dbname = "empleados";
+$server = 'localhost';
+$usuario = 'root';
+$password = '';
+$dbname = 'sistema_fichaje';
 
 try {
-    $conexion = new PDO('mysql:host=$server; dbname=$dbname', '$usuario', '$password');
-    echo "Conexión establecida con éxito";
+    $conexion = new PDO("mysql:host=$server; dbname=$dbname", $usuario, $password);
 } catch (Exception $error) {
-    die("Error: " . $error->getMessage());
+    die('Error: ' . $error->getMessage());
 }
 ?>

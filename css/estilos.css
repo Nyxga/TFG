@@ -1,30 +1,78 @@
 body {
     margin: 0;
     padding: 0;
-}
-
-#login {
     height: 100vh;
     display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    flex-shrink: 0;
+    z-index: 1000;
+}
+
+.navbar-brand img {
+    height: 80px;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+.navbar-nav .nav-item {
+    display: flex;
     align-items: center;
-    justify-content: center;
 }
 
-#login button {
-    margin-top: 20px;
+.navbar-nav .nav-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
-#login img {
-    margin-bottom: 20px;
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-top: 80px;
+}
+
+.sidebar {
+    width: 280px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    position: fixed;
+    top: 100px;
+    bottom: 0;
+    left: 0;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    z-index: 900;
+}
+
+.sidebar img {
+    max-width: 100%;
 }
 
 .input-group-text {
     cursor: pointer;
 }
 
-#registro {
+#login, #registro {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#login button, #registro button {
+    margin-top: 20px;
+}
+
+#login img, #registro img {
+    margin-bottom: 20px;
+}
+
+.nav-link:hover i.bi-chat {
+    transform: rotate(20deg);
+    color: #007bff;
 }
