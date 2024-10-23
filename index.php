@@ -7,6 +7,21 @@
     <title>Login</title>
     <link rel="stylesheet" href="./css/estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+            .alerta-fija {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1050;
+            width: 50%;
+            }
+
+            @font-face {
+            font-family: 'TAN-HEADLINE';
+            src: url('./fuentes/TAN-HEADLINE.woff2') format('woff2'), url('./fuentes/TAN-HEADLINE.ttf') format('truetype');
+            }
+        </style>
 </head>
 
 <body>
@@ -14,24 +29,21 @@
     <main>
         <div id="login">
             <form action="index.php" method="POST">
-                <picture>
-                    <img src="./img/Logo.svg" alt="Logo" width="400px">
-                </picture>
+                <h1 id="letras_Orion" style="margin-bottom: 40px;">Orion</h1>
                 <div class="mb-3">
                     <label for="empleado" class="form-label">Número de empleado</label>
                     <input type="number" id="empleado" name="empleado" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
-                    <div class="input-group">
+                    <div>
                         <input type="password" id="password" name="password" class="form-control" required>
-                        <span class="input-group-text" id="verPassword">👀</span>
                     </div>
                 </div>
                 <div class="mb-3">
                     <a href="registro.php" style="color: grey;">Haz clic aquí si no tienes cuenta</a>
                 </div>
-                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                <button type="submit" class="btn btn-primary darkmode-ignore">Iniciar sesión</button>
             </form>
         </div>
 
@@ -56,7 +68,7 @@
                     header('Location: inicio.php');
                     exit();
                 } else {
-                    echo '<div class="alert alert-danger" role="alert">Número de empleado o contraseña incorrectos.</div>';
+                    echo '<div class="alert alert-danger text-center alerta-fija" role="alert">Número de empleado o contraseña incorrectos.</div>';
                 }
             } catch (PDOException $e) {
                 echo 'Error: ' . $e->getMessage();
@@ -64,11 +76,10 @@
         }
         ?>
 
-
-
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
     <script>
         document.getElementById('verPassword').addEventListener('click', function() {
             const passwordField = document.getElementById('password');
@@ -76,6 +87,14 @@
             passwordField.setAttribute('type', type);
             this.textContent = type === 'password' ? '👀' : '🙈';
         });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+    <script>
+        function addDarkmodeWidget() {
+            new Darkmode().showWidget();
+        }
+        window.addEventListener('load', addDarkmodeWidget);
     </script>
 </body>
 

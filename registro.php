@@ -40,7 +40,11 @@
                     $sql = "INSERT INTO EMPLEADOS (NOMBRE, APELLIDO, EMAIL, PASSWORD, FOTO) VALUES (?, ?, ?, ?, ?)";
                     $stmt = $conexion->prepare($sql);
                     $stmt->execute([$nombre, $apellido, $email, $password, $foto_default]);
-                    $_SESSION['successMensaje'] = 'El usuario <strong>' . $nombre . '</strong> ha sido registrado con éxito';
+                    $_SESSION['successMensaje'] = 'El usuario <strong>' . $nombre . '</strong> ha sido registrado con éxito
+                    <br>Redirigiendo a la página de inicio...';
+                    sleep(3); 
+                    header("Location: index.php");
+                    exit();
                 } catch (PDOException $e) {
                     echo 'Error: ' . $e->getMessage();
                 }
@@ -65,7 +69,7 @@
         <div id="registro">
             <form action="registro.php" method="POST">
                 <picture>
-                    <img src="./img/Logo.svg" alt="Logo" width="400px">
+                    <img src="./img/Logo.svg" alt="Logo" width="300px">
                 </picture>
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
@@ -90,7 +94,7 @@
                         Las contraseñas no coinciden.
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Registrar</button>
+                <button type="submit" class="btn btn-primary darkmode-ignore">Registrar</button>
             </form>
         </div>
     </main>
@@ -99,15 +103,22 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script>
-        // Validar que las contraseñas coincidan antes de enviar el formulario
         document.querySelector('form').addEventListener('submit', function (event) {
             var password = document.getElementById('password').value;
             var confirmar_password = document.getElementById('confirmar_password').value;
             if (password !== confirmar_password) {
-                event.preventDefault(); // Prevenir el envío del formulario
-                document.getElementById('mensaje-error').style.display = 'block'; // Mostrar mensaje de error
+                event.preventDefault();
+                document.getElementById('mensaje-error').style.display = 'block';
             }
         });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+    <script>
+        function addDarkmodeWidget() {
+            new Darkmode().showWidget();
+        }
+        window.addEventListener('load', addDarkmodeWidget);
     </script>
 </body>
 
