@@ -17,6 +17,11 @@
             z-index: 1050;
             width: 50%;
             }
+
+            @font-face {
+            font-family: 'TAN-HEADLINE';
+            src: url('./fuentes/TAN-HEADLINE.woff2') format('woff2'), url('./fuentes/TAN-HEADLINE.ttf') format('truetype');
+            }
         </style>
 </head>
 
@@ -40,11 +45,16 @@
                     $sql = "INSERT INTO EMPLEADOS (NOMBRE, APELLIDO, EMAIL, PASSWORD, FOTO) VALUES (?, ?, ?, ?, ?)";
                     $stmt = $conexion->prepare($sql);
                     $stmt->execute([$nombre, $apellido, $email, $password, $foto_default]);
-                    $_SESSION['successMensaje'] = 'El usuario <strong>' . $nombre . '</strong> ha sido registrado con éxito
-                    <br>Redirigiendo a la página de inicio...';
-                    sleep(3); 
-                    header("Location: index.php");
-                    exit();
+                    $_SESSION['successMensaje'] = 'El usuario <strong>' . $nombre . '</strong> 
+                    ha sido registrado con éxito.<br>Redirigiendo a la página de inicio...';
+                    echo '<div class="alert alert-success text-center alerta-fija" role="alert">';
+                    echo $_SESSION['successMensaje'];
+                    echo '</div>';
+                    echo '<script>
+                            setTimeout(function(){
+                                window.location.href = "index.php";
+                            }, 3000);
+                          </script>';
                 } catch (PDOException $e) {
                     echo 'Error: ' . $e->getMessage();
                 }
@@ -57,20 +67,11 @@
             echo '</div>';
             unset($_SESSION['errorMensaje']);
         }
-
-        if (isset($_SESSION['successMensaje'])) {
-            echo '<div class="alert alert-success text-center alerta-fija" role="alert">';
-            echo $_SESSION['successMensaje'];
-            echo '</div>';
-            unset($_SESSION['successMensaje']);
-        }
         ?>
 
         <div id="registro">
             <form action="registro.php" method="POST">
-                <picture>
-                    <img src="./img/Logo.svg" alt="Logo" width="300px">
-                </picture>
+                <h1 id="letras_Orion" style="margin-bottom: 20px;">Orion</h1>
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
                     <input type="text" id="nombre" name="nombre" class="form-control" required>
@@ -80,7 +81,7 @@
                     <input type="text" id="apellido" name="apellido" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <label for="email" class="form-label">Dirección de correo</label>
                     <input type="text" id="email" name="email" class="form-control" required>
                 </div>
                 <div class="mb-3">
@@ -94,7 +95,7 @@
                         Las contraseñas no coinciden.
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary darkmode-ignore">Registrar</button>
+                <button type="submit" class="btn btn-dark darkmode-ignore">Registrar</button>
             </form>
         </div>
     </main>

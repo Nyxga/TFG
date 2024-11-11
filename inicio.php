@@ -22,16 +22,16 @@
         session_start();
         include 'conexion.php';
 
-        if (!isset($_SESSION['numero_empleado'])) {
+        if (!isset($_SESSION['email'])) {
             header('Location: index.php');
             exit();
         }
 
         try {
-            $numero_empleado = $_SESSION['numero_empleado'];
-            $sql = "SELECT NOMBRE, APELLIDO, FOTO FROM EMPLEADOS WHERE NUMERO_EMPLEADO = ?";
+            $email = $_SESSION['email'];
+            $sql = "SELECT NOMBRE, APELLIDO, FOTO FROM EMPLEADOS WHERE EMAIL = ?";
             $stmt = $conexion->prepare($sql);
-            $stmt->execute([$numero_empleado]);
+            $stmt->execute([$email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user) {
@@ -52,7 +52,7 @@
         }
         ?>
 
-        <aside style="background-color: white;">
+        <aside>
             <h1 id="letras_Orion" style="font-size: 40px; margin-top: 10px;">Orion</h1>
             <nav>
                 <ul>
