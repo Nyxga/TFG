@@ -49,4 +49,7 @@ li{
 }
 /* Logo Orion */
 
-
+#bootstrap-overrides a {
+    color: black;
+    text-decoration: none;
+}

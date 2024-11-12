@@ -71,7 +71,7 @@
 
         <div id="registro">
             <form action="registro.php" method="POST">
-                <h1 id="letras_Orion" style="margin-bottom: 20px;">Orion</h1>
+                <h1 id="letras_Orion" style="margin-bottom: 20px; text-align: center;">Orion</h1>
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
                     <input type="text" id="nombre" name="nombre" class="form-control" required>
@@ -94,6 +94,9 @@
                     <div id="mensaje-error" class="text-danger mt-2" style="display: none;">
                         Las contraseñas no coinciden.
                     </div>
+                </div>
+                <div class="mb-3">
+                    <a href="./index.php" style="color: grey;">¿Ya tienes cuenta? Haz clic aquí para iniciar sesión</a>
                 </div>
                 <button type="submit" class="btn btn-dark darkmode-ignore">Registrar</button>
             </form>

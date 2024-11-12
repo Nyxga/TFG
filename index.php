@@ -29,7 +29,7 @@
     <main>
         <div id="login">
             <form action="index.php" method="POST">
-                <h1 id="letras_Orion" style="margin-bottom: 20px;">Orion</h1>
+                <h1 id="letras_Orion" style="margin-bottom: 20px; text-align: center;">Orion</h1>
                 <div class="mb-3">
                     <input type="email" id="email" name="email" class="form-control" placeholder="Dirección de correo" required>
                 </div>
@@ -37,7 +37,7 @@
                     <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
                 </div>
                 <div class="mb-3">
-                    <a href="registro.php" style="color: grey;">Haz clic aquí si no tienes cuenta</a>
+                    <a href="./registro.php" style="color: grey;">Haz clic aquí si no tienes cuenta</a>
                 </div>
                 <button type="submit" class="btn btn-dark darkmode-ignore">Iniciar sesión</button>
             </form>
