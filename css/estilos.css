@@ -1,3 +1,8 @@
+/* @font-face {
+    font-family: 'TAN-HEADLINE';
+    src: url('./fuentes/TAN-HEADLINE.woff2') format('woff2'), url('./fuentes/TAN-HEADLINE.ttf') format('ttf');
+} */
+
 body {
     width: 100%;
     height: 100vh;
@@ -15,26 +20,47 @@ body {
     justify-content: center;
 }
 
-#login button, #registro button {
-    margin-top: 20px;
-}
-
-#login img, #registro img {
-    margin-bottom: 20px;
-}
-
 aside {
-    width: 250px;
+    width: 10%;
     padding: 20px;
     height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
     overflow: hidden;
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
-li{
+aside li:last-child {
+    bottom: 0px;
+    margin-top: auto;
+}
+
+header {
+    width: 90%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 20px;
+}
+
+#foto_usuario {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.dropdown button {
+    border: none !important;
+}
+
+.dropdown-menu {
+    margin-top: 10px !important;
+}
+
+aside li{
     list-style: none;
     left: 0px;
     margin-left: -30px;
@@ -42,14 +68,18 @@ li{
     color: #212529;
 }
 
-/* Logo Orion */
-#letras_Orion {
-    font-family: "TAN-HEADLINE";
-    font-size: 80px;
+.dropdown {
+    border-radius: 20px;
 }
-/* Logo Orion */
 
-#bootstrap-overrides a {
-    color: black;
-    text-decoration: none;
+a {
+    text-decoration: none !important;
+  }
+
+table th:not(:first-child) {
+padding-left: 20px;
+}
+
+table td:not(:first-child) {
+padding-left: 20px;
 }

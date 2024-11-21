@@ -16,11 +16,6 @@
             z-index: 1050;
             width: 50%;
             }
-
-            @font-face {
-            font-family: 'TAN-HEADLINE';
-            src: url('./fuentes/TAN-HEADLINE.woff2') format('woff2'), url('./fuentes/TAN-HEADLINE.ttf') format('truetype');
-            }
         </style>
 </head>
 
@@ -29,7 +24,7 @@
     <main>
         <div id="login">
             <form action="index.php" method="POST">
-                <h1 id="letras_Orion" style="margin-bottom: 20px; text-align: center;">Orion</h1>
+                <h1 id="letras_Orion" class="text-center">Orion</h1>
                 <div class="mb-3">
                     <input type="email" id="email" name="email" class="form-control" placeholder="Dirección de correo" required>
                 </div>
@@ -39,7 +34,7 @@
                 <div class="mb-3">
                     <a href="./registro.php" style="color: grey;">Haz clic aquí si no tienes cuenta</a>
                 </div>
-                <button type="submit" class="btn btn-dark darkmode-ignore">Iniciar sesión</button>
+                <button type="submit" class="btn btn-dark mt-20">Iniciar sesión</button>
             </form>
         </div>
 
@@ -74,15 +69,7 @@
 
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
-    <script>
-        function addDarkmodeWidget() {
-            new Darkmode().showWidget();
-        }
-        window.addEventListener('load', addDarkmodeWidget);
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
