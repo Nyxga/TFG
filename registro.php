@@ -30,7 +30,7 @@
             $apellidos = $_POST['apellidos'];
             $email = $_POST['email'];
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            $foto_default = './img/Usuario.svg';
+            $foto_default = './img/foto_default.svg';
 
             if (strpos($email, '@orion.net') === false) {
                 $_SESSION['errorMensaje'] = 'El correo electrónico debe tener el dominio <strong>@orion.net</strong>';
@@ -65,7 +65,7 @@
 
         <div id="registro">
             <form action="registro.php" method="POST">
-                <h1 id="letras_Orion" class="text-center">Orion</h1>
+                <h1 class="text-center" style="font-size: 80px;">Orion</h1>
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
                     <input type="text" id="nombre" name="nombre" class="form-control" required>

@@ -24,7 +24,7 @@
     <main>
         <div id="login">
             <form action="index.php" method="POST">
-                <h1 id="letras_Orion" class="text-center">Orion</h1>
+                <h1 class="text-center" style="font-size: 80px;">Orion</h1>
                 <div class="mb-3">
                     <input type="email" id="email" name="email" class="form-control" placeholder="Dirección de correo" required>
                 </div>

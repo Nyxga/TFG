@@ -16,7 +16,7 @@
         session_start();
         include 'conexion.php';
 
-        $foto_predeterminada = './img/Usuario.svg';
+        $foto_predeterminada = './img/foto_default.svg';
 
         if (isset($_SESSION['foto_actualizada'])) {
             $mensaje = $_SESSION['foto_actualizada'];
@@ -60,7 +60,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" href="#" id="cambiarFoto">Actualizar foto de perfil <i class="bi bi-pencil-square"></i></a>
+                        <a class="dropdown-item text-dark" href="#" id="cambiarFoto">Actualizar foto de perfil <i class="bi bi-pencil-square"></i></a>
                         <form action="fotoperfil.php" method="post" enctype="multipart/form-data" style="display: none;" id="form-cambiar-foto">
                             <input type="file" name="image" accept="image/*" id="input-foto" onchange="document.getElementById('form-cambiar-foto').submit();">
                         </form>
@@ -78,10 +78,10 @@
         </header>
 
         <aside>
-            <h1 class="fs-1 mb-20">Orion</h1>
+            <h1 class="fs-1 mb-20 text-light">Orion</h1>
             <nav>
                 <ul>
-                    <li><a href="./empleados.php"><i class="bi bi-people-fill"></i> Empleados</a></li>
+                    <li><a href="./empleados.php"><i class="bi bi-people-fill me-3"></i>Empleados</a></li>
                     <li><a href="#">Registros</a></li>
                     <li><a href="#">Permisos</a></li>
                     <li><a href="#">Turnos</a></li>

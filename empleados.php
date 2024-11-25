@@ -34,10 +34,22 @@
 
     require 'conexion.php';
 
+    // Inicializa variables
     $empleados = [];
+    $busqueda = isset($_GET['busqueda']) ? trim($_GET['busqueda']) : '';
+
     try {
+        // Consulta SQL con filtro de búsqueda
         $sql = "SELECT NOMBRE, APELLIDOS, EMAIL, FOTO FROM EMPLEADOS";
+        if (!empty($busqueda)) {
+            $sql .= " WHERE NOMBRE LIKE :busqueda OR APELLIDOS LIKE :busqueda OR EMAIL LIKE :busqueda";
+        }
+        $sql .= " ORDER BY NOMBRE ASC, APELLIDOS ASC";
+
         $stmt = $conexion->prepare($sql);
+        if (!empty($busqueda)) {
+            $stmt->bindValue(':busqueda', '%' . $busqueda . '%');
+        }
         $stmt->execute();
         $empleados = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -45,24 +57,30 @@
     }
     ?>
 
+
     <header>
         <a href="./inicio.php">
-            <h6><i class="bi bi-house-fill"></i> Volver a inicio</h6>
+            <h6 style="color: #0c0e66;"><i class="bi bi-house-fill"></i> Volver a inicio</h6>
         </a>
     </header>
 
-    <section>
-        <h1 class="fs-3">Lista de empleados</h1>
+    <section class="d-flex justify-content-center">
+        <h1 class="fs-3 mb-3">Lista de empleados</h1>
     </section>
 
-    <article>
+    <article class="d-flex justify-content-center">
         <table>
             <thead>
                 <tr>
-                    <th></th>
+                    <th class="pb-5"></th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
                     <th>Email</th>
+                    <th>
+                        <form method="GET" action="" class="d-flex justify-content-center">
+                            <input type="text" name="busqueda" class="form-control w-50 text-center" placeholder="Buscar" value="<?php echo htmlspecialchars($busqueda); ?>">
+                        </form>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -71,15 +89,16 @@
                         <tr>
                             <td>
                                 <?php if (!empty($empleado['FOTO'])): ?>
-                                    <img src="<?php echo htmlspecialchars($empleado['FOTO']); ?>" alt="Foto de <?php echo htmlspecialchars($empleado['NOMBRE']); ?>" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                                    <img src="<?php echo htmlspecialchars($empleado['FOTO']); ?>" alt="Foto de <?php echo htmlspecialchars($empleado['NOMBRE']); ?>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" id="img_tabla">
                                 <?php else: ?>
-                                    <img src="./images/default-avatar.png" alt="Foto no disponible" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                                    <img src="./img/foto_default.svg" alt="Foto no disponible" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                                 <?php endif; ?>
                             </td>
                             <td><?php echo htmlspecialchars($empleado['NOMBRE']); ?></td>
                             <td><?php echo htmlspecialchars($empleado['APELLIDOS']); ?></td>
                             <td><?php echo htmlspecialchars($empleado['EMAIL']); ?></td>
                         </tr>
+                        <hr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
@@ -89,7 +108,6 @@
             </tbody>
         </table>
     </article>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

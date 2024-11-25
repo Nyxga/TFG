@@ -4,82 +4,96 @@
 } */
 
 body {
-    width: 100%;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background-color: #f1f3f8 !important;
 }
 
-#login, #registro {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+#login,
+#registro {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 aside {
-    width: 10%;
-    padding: 20px;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+  width: 15%;
+  padding: 20px;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: #0c0e66;
 }
 
 aside li:last-child {
-    bottom: 0px;
-    margin-top: auto;
+  bottom: 0px;
+  margin-top: auto;
 }
 
 header {
-    width: 90%;
-    position: fixed;
-    top: 0;
-    right: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 20px;
+  width: 85%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px;
 }
 
 #foto_usuario {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#img_tabla {
+    transition: transform 0.3s ease;
+}
+
+#img_tabla:hover {
+    transform: scale(1.5);
 }
 
 .dropdown button {
-    border: none !important;
+  border: none !important;
 }
 
 .dropdown-menu {
-    margin-top: 10px !important;
+  margin-top: 10px !important;
+  margin-left: 40px !important;
 }
 
-aside li{
-    list-style: none;
-    left: 0px;
-    margin-left: -30px;
-    padding: 20px 0px 0px 0px;
-    color: #212529;
-}
-
-.dropdown {
-    border-radius: 20px;
+aside li {
+  list-style: none;
+  left: 0px;
+  margin-left: -30px;
+  padding: 20px 0px 0px 0px;
+  color: #212529;
 }
 
 a {
-    text-decoration: none !important;
-  }
+  text-decoration: none !important;
+  color: white !important;
+}
 
 table th:not(:first-child) {
-padding-left: 20px;
+  padding-left: 40px;
 }
 
 table td:not(:first-child) {
-padding-left: 20px;
+  padding-left: 40px;
+}
+
+table {
+  border-spacing: 0 15px !important;
+  border-collapse: separate !important;
 }
