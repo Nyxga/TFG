@@ -13,44 +13,7 @@
 <body>
     <main>
         <?php
-        session_start();
-        include 'conexion.php';
-
-        $foto_predeterminada = './img/foto_default.svg';
-
-        if (isset($_SESSION['foto_actualizada'])) {
-            $mensaje = $_SESSION['foto_actualizada'];
-            unset($_SESSION['foto_actualizada']);
-        }
-
-        if (!isset($_SESSION['email'])) {
-            header('Location: index.php');
-            exit();
-        }
-
-        try {
-            $email = $_SESSION['email'];
-            $sql = "SELECT NOMBRE, APELLIDOS, FOTO FROM EMPLEADOS WHERE EMAIL = ?";
-            $stmt = $conexion->prepare($sql);
-            $stmt->execute([$email]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($user) {
-                $nombre = htmlspecialchars($user['NOMBRE']);
-                $apellidos = htmlspecialchars($user['APELLIDOS']);
-                $foto_url = htmlspecialchars($user['FOTO']);
-            }
-        } catch (PDOException $e) {
-            echo '<div class="alert alert-danger" role="alert">Error: ' . htmlspecialchars($e->getMessage()) . '</div>';
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout'])) {
-            session_unset();
-            session_destroy();
-
-            header('Location: index.php');
-            exit();
-        }
+        include 'listar_empleados.php';
         ?>
 
         <header>
@@ -82,7 +45,7 @@
             <nav>
                 <ul>
                     <li><a href="./empleados.php"><i class="bi bi-people-fill me-3"></i>Empleados</a></li>
-                    <li><a href="#">Registros</a></li>
+                    <li><a href="./chat.php"><i class="bi bi-chat-dots-fill me-3"></i></i>Chat</a></li>
                     <li><a href="#">Permisos</a></li>
                     <li><a href="#">Turnos</a></li>
                     <li><a href="#">Nóminas</a></li>

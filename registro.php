@@ -7,16 +7,16 @@
     <title>Registro de empleado</title>
     <link rel="stylesheet" href="./css/estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <style>
-            .alerta-fija {
+    <style>
+        .alerta-fija {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1050;
             width: 50%;
-            }
-        </style>
+        }
+    </style>
 </head>
 
 <body>
@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <a href="./index.php" style="color: grey;">¿Ya tienes cuenta? Haz clic aquí para iniciar sesión</a>
+                    <a href="./index.php" class="text-dark">¿Ya tienes cuenta? Haz clic aquí para iniciar sesión</a>
                 </div>
                 <button type="submit" class="btn btn-dark mt-20">Registrar</button>
             </form>
@@ -100,7 +100,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        document.querySelector('form').addEventListener('submit', function (event) {
+        document.querySelector('form').addEventListener('submit', function(event) {
             var password = document.getElementById('password').value;
             var confirmar_password = document.getElementById('confirmar_password').value;
             if (password !== confirmar_password) {
