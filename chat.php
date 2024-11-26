@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
     <link rel="stylesheet" href="./css/estilos.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         body {
@@ -15,7 +15,7 @@
 
         header {
             width: 100%;
-            justify-content: flex-start;
+            justify-content: space-between;
             position: unset;
             padding: 0;
             margin-bottom: 20px;
@@ -25,24 +25,95 @@
 
 <body>
     <?php
-    include 'listar_empleados.php';
+    include 'listar_empleados.php'; 
+
+    // Obtención de los datos para el usuario seleccionado
+    $usuario_seleccionado = isset($_POST['usuario']) ? $_POST['usuario'] : '';
+    $foto_seleccionada = isset($_POST['foto']) ? $_POST['foto'] : './img/foto_default.svg';
     ?>
 
     <header>
         <a href="./inicio.php">
             <h6 style="color: #0c0e66;"><i class="bi bi-house-fill"></i> Volver a inicio</h6>
         </a>
-
         <div>
             <img src="<?php echo !empty($foto_url) ? $foto_url : $foto_predeterminada; ?>" alt="Foto de perfil" id="foto_usuario">
             <span><?php echo $nombre . ' ' . $apellidos; ?></span>
         </div>
     </header>
 
+    <section class="mb-4">
+        <h1 class="fs-3">Chat</h1>
+    </section>
 
+    <article>
+        <div class="linea">
+            <!-- Tabla de usuarios -->
+            <div class="tabla-usuarios">
+                <form method="POST" action="">
+                    <table class="table table-hover">
+                        <tbody>
+                            <?php if (count($empleados) > 0): ?>
+                                <?php foreach ($empleados as $empleado): ?>
+                                    <tr>
+                                        <td>
+                                            <form method="POST" action="">
+                                                <input type="hidden" name="usuario" value="<?php echo htmlspecialchars($empleado['NUMERO_EMPLEADO']); ?>">
+                                                <input type="hidden" name="foto" value="<?php echo !empty($empleado['FOTO']) ? htmlspecialchars($empleado['FOTO']) : './img/foto_default.svg'; ?>">
+                                                <button type="submit" class="btn btn-link text-decoration-none">
+                                                    <img src="<?php echo !empty($empleado['FOTO']) ? htmlspecialchars($empleado['FOTO']) : './img/foto_default.svg'; ?>" alt="Foto de <?php echo htmlspecialchars($empleado['NOMBRE']); ?>" id="foto_usuario">
+                                                    <?php echo htmlspecialchars($empleado['NOMBRE'] . ' ' . $empleado['APELLIDOS']); ?>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td>No hay usuarios disponibles.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
 
+            <!-- Contenedor del chat -->
+            <div class="tabla-chat">
+                <table id="contenedor_chat" class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img src="<?php echo htmlspecialchars($foto_seleccionada); ?>" alt="Foto de perfil" id="foto_usuario">
+                                <?php
+                                // Mostrar nombre completo basado en el número de empleado seleccionado
+                                if (!empty($usuario_seleccionado)) {
+                                    // Buscar el nombre del destinatario usando su NUMERO_EMPLEADO
+                                    foreach ($empleados as $empleado) {
+                                        if ($empleado['NUMERO_EMPLEADO'] == $usuario_seleccionado) {
+                                            echo $empleado['NOMBRE'] . ' ' . $empleado['APELLIDOS'];
+                                        }
+                                    }
+                                } else {
+                                    echo "Seleccione un usuario para iniciar el chat.";
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Formulario de envío -->
+                <form id="formulario_mensaje" action="">
+                    <input type="text" name="mensaje" class="form-control" placeholder="Escribe un mensaje..." required>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </article>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 </html>

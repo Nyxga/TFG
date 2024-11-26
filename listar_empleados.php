@@ -14,14 +14,13 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
-
-//LISTA DE EMPLEADOS
+// LISTA DE EMPLEADOS
 $empleados = [];
 $busqueda = isset($_GET['busqueda']) ? trim($_GET['busqueda']) : '';
 
 try {
     // Consulta SQL con filtro de búsqueda
-    $sql = "SELECT NOMBRE, APELLIDOS, EMAIL, FOTO FROM EMPLEADOS";
+    $sql = "SELECT NUMERO_EMPLEADO, NOMBRE, APELLIDOS, EMAIL, FOTO FROM EMPLEADOS";
     if (!empty($busqueda)) {
         $sql .= " WHERE NOMBRE LIKE :busqueda OR APELLIDOS LIKE :busqueda OR EMAIL LIKE :busqueda";
     }
@@ -37,16 +36,18 @@ try {
     echo '<div class="alert alert-danger" role="alert">Error al cargar empleados: ' . htmlspecialchars($e->getMessage()) . '</div>';
 }
 
-
-//FOTOS EMPLEADOS
+// FOTOS EMPLEADOS
 try {
     $email = $_SESSION['email'];
-    $sql = "SELECT NOMBRE, APELLIDOS, FOTO FROM EMPLEADOS WHERE EMAIL = ?";
+    $sql = "SELECT NUMERO_EMPLEADO, NOMBRE, APELLIDOS, FOTO FROM EMPLEADOS WHERE EMAIL = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
+        // Almacenar el número de empleado en la sesión
+        $_SESSION['numero_empleado'] = $user['NUMERO_EMPLEADO'];
+
         $nombre = htmlspecialchars($user['NOMBRE']);
         $apellidos = htmlspecialchars($user['APELLIDOS']);
         $foto_url = htmlspecialchars($user['FOTO']);
@@ -62,3 +63,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout'])) {
     header('Location: index.php');
     exit();
 }
+?>
