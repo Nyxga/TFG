@@ -55,13 +55,13 @@ header {
   object-fit: cover;
 }
 
-#img_tabla {
+/* #img_tabla {
     transition: transform 0.3s ease;
 }
 
 #img_tabla:hover {
-    transform: scale(1.5);
-}
+    transform: scale(1.2);
+} */
 
 .dropdown button {
   border: none !important;
@@ -85,15 +85,53 @@ a {
   color: white !important;
 }
 
-table th:not(:first-child) {
-  padding-left: 40px;
+#prueba {
+  max-height: 400px;
+  overflow-y: auto;
 }
 
-table td:not(:first-child) {
-  padding-left: 40px;
+
+
+/* ESTILOS CHAT */
+.linea {
+  display: flex;
+  height: 500px; /* Altura fija para la fila */
+  border: 1px solid #ccc;
 }
 
-table {
-  border-spacing: 0 15px !important;
-  border-collapse: separate !important;
+.tabla-usuarios {
+  width: 30%; /* Ancho fijo para la tabla de usuarios */
+  overflow-y: scroll; /* Habilitar scroll vertical */
+  border-right: 1px solid #ccc;
+  height: 100%; /* Ocupar toda la altura del contenedor */
 }
+
+.tabla-usuarios table {
+  width: 100%;
+}
+
+.tabla-chat {
+  width: 70%; /* Ancho para el chat */
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#contenedor_chat {
+  height: calc(100% - 60px); /* Altura ajustada para incluir el input */
+  overflow-y: scroll;
+  margin-bottom: 10px;
+}
+
+.tabla-chat form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.usuario-seleccionado {
+  background-color: #d1e7dd !important; /* Fondo verde claro */
+}
+/* ESTILOS CHAT */
