@@ -42,20 +42,21 @@
         <?php
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             session_start();
-            include 'conexion.php';
+            require 'conexion.php';
 
             $email = $_POST['email'];
             $password = $_POST['password'];
 
             try {
-                $sql = "SELECT PASSWORD FROM EMPLEADOS WHERE EMAIL = ?";
+                $sql = "SELECT NUMERO_EMPLEADO, PASSWORD FROM EMPLEADOS WHERE EMAIL = ?";
                 $stmt = $conexion->prepare($sql);
                 $stmt->execute([$email]);
 
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($result && password_verify($password, $result['PASSWORD'])) {
-                    $_SESSION['email'] = $email;
+                    // Guardar el número de empleado en la sesión
+                    $_SESSION['numero_empleado'] = $result['NUMERO_EMPLEADO'];
                     header('Location: inicio.php');
                     exit();
                 } else {

@@ -9,7 +9,8 @@ if (isset($_SESSION['foto_actualizada'])) {
     unset($_SESSION['foto_actualizada']);
 }
 
-if (!isset($_SESSION['email'])) {
+// Asegurarnos de que el número de empleado esté en la sesión
+if (!isset($_SESSION['numero_empleado'])) {
     header('Location: index.php');
     exit();
 }
@@ -38,16 +39,13 @@ try {
 
 // FOTOS EMPLEADOS
 try {
-    $email = $_SESSION['email'];
-    $sql = "SELECT NUMERO_EMPLEADO, NOMBRE, APELLIDOS, FOTO FROM EMPLEADOS WHERE EMAIL = ?";
+    $numero_empleado = $_SESSION['numero_empleado']; // Usamos el número de empleado desde la sesión
+    $sql = "SELECT NUMERO_EMPLEADO, NOMBRE, APELLIDOS, FOTO FROM EMPLEADOS WHERE NUMERO_EMPLEADO = ?";
     $stmt = $conexion->prepare($sql);
-    $stmt->execute([$email]);
+    $stmt->execute([$numero_empleado]); // Pasamos el número de empleado en la consulta
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        // Almacenar el número de empleado en la sesión
-        $_SESSION['numero_empleado'] = $user['NUMERO_EMPLEADO'];
-
         $nombre = htmlspecialchars($user['NOMBRE']);
         $apellidos = htmlspecialchars($user['APELLIDOS']);
         $foto_url = htmlspecialchars($user['FOTO']);
