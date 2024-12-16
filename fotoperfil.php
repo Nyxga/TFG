@@ -2,16 +2,16 @@
 session_start();
 include 'conexion.php';
 
-if (!isset($_SESSION['email'])) {
+if (!isset($_SESSION['numero_empleado'])) {
     header('Location: index.php');
     exit();
 }
 
-$email = $_SESSION['email'];
+$numero_empleado = $_SESSION['numero_empleado'];
 
-$sql = "SELECT NOMBRE, APELLIDOS, FOTO FROM EMPLEADOS WHERE EMAIL = ?";
+$sql = "SELECT NOMBRE, APELLIDOS, FOTO FROM EMPLEADOS WHERE NUMERO_EMPLEADO = ?";
 $stmt = $conexion->prepare($sql);
-$stmt->execute([$email]);
+$stmt->execute([$numero_empleado]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user) {
@@ -36,10 +36,10 @@ if ($user) {
 
     if (move_uploaded_file($_FILES['image']['tmp_name'], $rutaDestino)) {
         try {
-            $sql = "UPDATE EMPLEADOS SET FOTO = ? WHERE EMAIL = ?";
+            $sql = "UPDATE EMPLEADOS SET FOTO = ? WHERE NUMERO_EMPLEADO = ?";
             $stmt = $conexion->prepare($sql);
             $stmt->bindParam(1, $rutaDestino);
-            $stmt->bindParam(2, $email);
+            $stmt->bindParam(2, $numero_empleado);
             $stmt->execute();
 
             header('Location: inicio.php');
@@ -53,4 +53,3 @@ if ($user) {
 } else {
     echo "Error: No se encontraron los datos del usuario.";
 }
-?>

@@ -1,8 +1,3 @@
-/* @font-face {
-    font-family: 'TAN-HEADLINE';
-    src: url('./fuentes/TAN-HEADLINE.woff2') format('woff2'), url('./fuentes/TAN-HEADLINE.ttf') format('ttf');
-} */
-
 body {
   width: 100%;
   height: 100vh;
@@ -15,20 +10,24 @@ body {
 }
 
 #login,
-#registro {
+#form_registro {
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+#registro,
+#index .alerta-fija {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1050;
+  width: 50%;
 }
 
 aside {
   width: 15%;
   padding: 20px;
   height: 100vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
   background-color: #0c0e66;
 }
 
@@ -37,15 +36,62 @@ aside li:last-child {
   margin-top: auto;
 }
 
-header {
-  width: 85%;
-  position: fixed;
-  top: 0;
+#inicio main {
+  width: 100%;
+  height: 90%;
   right: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 20px;
+  padding: 40px;
+  position: absolute;
+  top: 10%;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+#inicio header {
+  height: 10%;
+  z-index: 1000;
+  background-color: #f1f3f8;
+}
+
+@media (max-width: 480px) {
+  #inicio header {
+    justify-content: flex-start !important;
+  }
+
+  .dropdown-content li a{
+    width: 140px;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+#inicio article button {
+  width: 200px;
+} 
+
+#control_horario {
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  #control_horario {
+      width: 100%;
+  }
+
+  #control_horario table {
+      display: block;
+  }
+
+  #control_horario table td {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+  }
+}
+
+#control_horario table {
+  border-collapse: separate;
+  border-spacing: 1em;
 }
 
 #foto_usuario {
@@ -53,23 +99,6 @@ header {
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-}
-
-/* #img_tabla {
-    transition: transform 0.3s ease;
-}
-
-#img_tabla:hover {
-    transform: scale(1.2);
-} */
-
-.dropdown button {
-  border: none !important;
-}
-
-.dropdown-menu {
-  margin-top: 10px !important;
-  margin-left: 40px !important;
 }
 
 aside li {
@@ -90,13 +119,18 @@ a {
   overflow-y: auto;
 }
 
-
-
 /* ESTILOS CHAT */
+#chat main {
+  padding: 0px 40px 40px 40px;
+}
+
 .linea {
-  display: flex;
   height: 500px; /* Altura fija para la fila */
-  border: 1px solid #ccc;
+}
+
+.linea tr td {
+  border-radius: 10px;
+  width: 100%;
 }
 
 .tabla-usuarios {
@@ -107,31 +141,124 @@ a {
 }
 
 .tabla-usuarios table {
-  width: 100%;
+  width: 90%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
 }
 
 .tabla-chat {
   width: 70%; /* Ancho para el chat */
   height: 100%;
-  padding: 10px;
+  padding: 0px 10px 10px 10px;
   box-sizing: border-box;
+  overflow-y: scroll;
 }
 
 #contenedor_chat {
   height: calc(100% - 60px); /* Altura ajustada para incluir el input */
   overflow-y: scroll;
   margin-bottom: 10px;
-}
-
-.tabla-chat form {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 10px;
+  max-height: 80px;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  width: auto;
 }
 
 .usuario-seleccionado {
   background-color: #d1e7dd !important; /* Fondo verde claro */
 }
+
+.mi-mensaje {
+  margin-left: auto;
+  text-align: right;
+  border: none;
+}
+
+.mensaje-empleado {
+  border: none;
+}
+
+#foto-chat {
+  text-align: center;
+  vertical-align: middle;
+  width: 5px;
+  background-color: transparent;
+  border: none;
+}
+
+#tabla_form_mensaje form {
+  display: flex;
+  gap: 10px;
+}
+
+#tabla_form_mensaje td:first-child {
+  width: 30%;
+}
+
+#tabla_form_mensaje td:last-child {
+  width: 70%;
+}
+
+#tabla_form_mensaje td {
+  background-color: #f1f3f8;
+  border-style: none;
+  padding: 0px;
+}
+
+#tabla_form_mensaje {
+  margin-top: 20px;
+}
+
+#contenedor_receptor {
+  display: flex;
+  width: 70%;
+  margin-left: auto;
+  padding: 20px;
+  align-items: center;
+}
+
+#contenedor_receptor span {
+  margin-left: 4px;
+}
 /* ESTILOS CHAT */
+
+.dropbtn {
+  color: white;
+  background-color: transparent;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.dropdown-content li {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  z-index: 1;
+  text-align: center;
+}
+
+.dropdown-content li:hover {
+  background-color: #ddd;
+  border-radius: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  background-color: #f1f3f8;
+}

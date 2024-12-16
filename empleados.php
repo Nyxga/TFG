@@ -9,15 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        body {
-            padding: 20px;
-        }
-
         header {
             width: 100%;
             justify-content: flex-start;
             position: unset;
-            padding: 0;
+            padding: 40px;
             margin-bottom: 20px;
         }
     </style>
@@ -40,14 +36,15 @@
     </section>
 
     <article class="d-flex justify-content-center">
-        <div id="prueba">
-            <table class="table table-hover">
+        <div>
+            <table class="table table-hover align-middle">
                 <thead>
-                    <tr>
+                    <tr class="align-middle">
                         <th class="pb-5"></th>
                         <th>Nombre</th>
                         <th>Apellidos</th>
                         <th>Email</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,6 +61,14 @@
                                 <td><?php echo htmlspecialchars($empleado['NOMBRE']); ?></td>
                                 <td><?php echo htmlspecialchars($empleado['APELLIDOS']); ?></td>
                                 <td><?php echo htmlspecialchars($empleado['EMAIL']); ?></td>
+                                <td>
+                                    <form method="GET" action="chat.php" style="display: inline;">
+                                        <input type="hidden" name="usuario" value="<?php echo $empleado['NUMERO_EMPLEADO']; ?>">
+                                        <button type="submit" class="btn btn-chat">
+                                            <i class="bi bi-chat-dots"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
