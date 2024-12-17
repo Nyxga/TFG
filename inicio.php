@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
 </head>
 
 <body id="inicio">
@@ -70,7 +71,7 @@
             </form>
         </article>
 
-        <section class="d-flex mt-4 mb-4">
+        <section id="titulo_historial" class="d-flex mt-4 mb-4">
             <h2>Historial de fichaje</h2>
         </section>
 
@@ -91,7 +92,7 @@
                             <tr>
                                 <?php
                                 $fecha = new DateTime($empleado['fecha_hora']);
-                                $fecha_formateada = $fecha->format('d/m/Y H:i:s');
+                                $fecha_formateada = $fecha->format('d/m/Y G:i:s');
 
                                 // Definir las clases en función del tipo de fichaje
                                 $clase_tipo = '';

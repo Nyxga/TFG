@@ -55,13 +55,44 @@ aside li:last-child {
 
 @media (max-width: 480px) {
   #inicio header {
-    justify-content: flex-start !important;
+    justify-content: center !important;
   }
 
   .dropdown-content li a{
     width: 140px;
     text-align: center;
     justify-content: center;
+  }
+
+  #inicio #reloj {
+    font-size: 25px;
+  }
+
+  #inicio #titulo_historial {
+    justify-content: center;
+  }
+
+  #index .alert {
+    width: 80%;
+  }
+
+  #inicio .dropbtn {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 320px) {
+  #inicio header {
+    margin-top: 10px;
+    font-size: 15px;
+  }
+
+  #inicio #reloj {
+    font-size: 20px;
+  }
+
+  #inicio article table {
+    font-size: 12px; 
   }
 }
 
@@ -225,7 +256,7 @@ a {
 .dropbtn {
   color: white;
   background-color: transparent;
-  padding: 16px;
+  padding: 10px;
   font-size: 16px;
   border: none;
 }

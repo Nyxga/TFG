@@ -10,6 +10,10 @@
 </head>
 
 <body id="index">
+    <?php
+    include 'iniciar_sesion.php';
+    ?>
+
     <div id="login" class="d-flex align-items-center justify-content-center">
         <form action="index.php" method="POST">
             <h1 class="text-center" style="font-size: 80px;">Orion</h1>
@@ -19,42 +23,9 @@
             <div class="mb-3">
                 <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
             </div>
-            <div class="mb-3">
-                <a href="./registro.php" class="text-dark">Haz clic aquí si no tienes cuenta</a>
-            </div>
             <button type="submit" class="btn btn-dark mt-20">Iniciar sesión</button>
         </form>
     </div>
-
-
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        session_start();
-        require 'conexion.php';
-
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-
-        try {
-            $sql = "SELECT NUMERO_EMPLEADO, PASSWORD FROM EMPLEADOS WHERE EMAIL = ?";
-            $stmt = $conexion->prepare($sql);
-            $stmt->execute([$email]);
-
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($result && password_verify($password, $result['PASSWORD'])) {
-                // Guardar el número de empleado en la sesión
-                $_SESSION['numero_empleado'] = $result['NUMERO_EMPLEADO'];
-                header('Location: inicio.php');
-                exit();
-            } else {
-                echo '<div class="alert alert-danger text-center alerta-fija" role="alert">Dirección de correo o contraseña incorrectos.</div>';
-            }
-        } catch (PDOException $e) {
-            echo 'Error: ' . $e->getMessage();
-        }
-    }
-    ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
