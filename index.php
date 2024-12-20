@@ -16,7 +16,7 @@
 
     <div id="login" class="d-flex align-items-center justify-content-center">
         <form action="index.php" method="POST">
-            <h1 class="text-center" style="font-size: 80px;">Orion</h1>
+            <h1 class="text-center mb-4">Sistema de fichaje</h1>
             <div class="mb-3">
                 <input type="email" id="email" name="email" class="form-control" placeholder="Dirección de correo" required>
             </div>

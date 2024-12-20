@@ -42,7 +42,7 @@ if ($user) {
             $stmt->bindParam(2, $numero_empleado);
             $stmt->execute();
 
-            header('Location: inicio.php');
+            header('Location: actualizar_perfil.php');
             exit();
         } catch (PDOException $e) {
             echo "Error al actualizar la foto: " . $e->getMessage();

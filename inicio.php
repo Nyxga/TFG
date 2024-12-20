@@ -8,12 +8,10 @@
     <link rel="stylesheet" href="./css/estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
 </head>
 
 <body id="inicio">
     <?php
-    // include 'listar_empleados.php';
     include 'log_horario.php';
     ?>
 
@@ -24,11 +22,14 @@
             </button>
             <div class="dropdown-content">
                 <li>
+                    <a class="d-flex text-dark" href="./actualizar_perfil.php">Actualizar perfil<i class="bi bi-pencil-square px-1"></i></a>
+                </li>
+                <!-- <li>
                     <a class="d-flex text-dark" href="#" id="cambiarFoto">Actualizar foto <i class="bi bi-image px-1"></i></a>
                     <form action="fotoperfil.php" method="post" enctype="multipart/form-data" style="display: none;" id="form-cambiar-foto">
                         <input type="file" name="image" accept="image/*" id="input-foto" onchange="document.getElementById('form-cambiar-foto').submit();">
                     </form>
-                </li>
+                </li> -->
                 <li>
                     <form method="POST" action="">
                         <button type="submit" name="logout" class="dropdown-item">

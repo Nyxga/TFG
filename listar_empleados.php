@@ -46,7 +46,7 @@ try {
 // FOTOS EMPLEADOS
 try {
     $numero_empleado = $_SESSION['numero_empleado']; // Usamos el número de empleado desde la sesión
-    $sql = "SELECT NUMERO_EMPLEADO, NOMBRE, APELLIDOS, FOTO FROM EMPLEADOS WHERE NUMERO_EMPLEADO = ?";
+    $sql = "SELECT NUMERO_EMPLEADO, NOMBRE, APELLIDOS, FOTO, EMAIL FROM EMPLEADOS WHERE NUMERO_EMPLEADO = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->execute([$numero_empleado]); // Pasamos el número de empleado en la consulta
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -55,6 +55,7 @@ try {
         $nombre = htmlspecialchars($user['NOMBRE']);
         $apellidos = htmlspecialchars($user['APELLIDOS']);
         $foto_url = htmlspecialchars($user['FOTO']);
+        $email = htmlspecialchars($user['EMAIL']);
     }
 } catch (PDOException $e) {
     echo '<div class="alert alert-danger" role="alert">Error: ' . htmlspecialchars($e->getMessage()) . '</div>';
@@ -68,34 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout'])) {
     exit();
 }
 
-
-// HORARIOS EMPLEADOS
-$query = "SELECT dia_semana, hora_inicio, hora_fin FROM horarios WHERE NUMERO_EMPLEADO = :numero_empleado";
-$stmt = $conexion->prepare($query);
-$stmt->bindParam(':numero_empleado', $numero_empleado, PDO::PARAM_INT);
-$stmt->execute();
-
-$dias_semana = [
-    'Lunes' => null,
-    'Martes' => null,
-    'Miércoles' => null,
-    'Jueves' => null,
-    'Viernes' => null,
-    'Sábado' => null,
-    'Domingo' => null,
-];
-
-// Rellenar el array con datos de la consulta
-while ($horario = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $dias_semana[$horario['dia_semana']] = [
-        'hora_inicio' => $horario['hora_inicio'],
-        'hora_fin' => $horario['hora_fin'],
-    ];
-    
-}
-
-// var_dump($dias_semana);
-// exit();
 
 function calcularHorasTrabajo($hora_inicio, $hora_fin) {
     $inicio = new DateTime($hora_inicio);

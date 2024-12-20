@@ -118,6 +118,10 @@ aside li:last-child {
       width: 100%;
       margin-bottom: 10px;
   }
+
+  #actualizar_perfil {
+    padding: 10px !important;
+  }
 }
 
 #control_horario table {
@@ -128,6 +132,13 @@ aside li:last-child {
 #foto_usuario {
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#contenedor_actualizar_foto img {
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -269,7 +280,7 @@ a {
 .dropdown-content {
   display: none;
   position: absolute;
-  min-width: 160px;
+  min-width: 180px;
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
   z-index: 1;
   border-radius: 10px;
@@ -292,4 +303,13 @@ a {
 .dropdown:hover .dropdown-content {
   display: block;
   background-color: #f1f3f8;
+}
+
+.dropdown-item {
+  width: 0% !important;
+}
+
+
+#actualizar_perfil {
+  padding: 40px;
 }

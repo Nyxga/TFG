@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         $ip_cliente = $_SERVER['REMOTE_ADDR'];
 
-        $os_pattern = '/(Windows|Macintosh|Android|iPhone|iPad|Linux|Ubuntu|Windows Phone|BlackBerry|FreeBSD|Debian|Chrome OS)/';
+        $os_pattern = '/(Windows|Macintosh|Android|iPhone|iPad|Ubuntu|Linux|Windows Phone|BlackBerry|FreeBSD|Debian|Chrome OS)/';
         preg_match($os_pattern, $user_agent, $os_matches);
         $os_name = isset($os_matches[1]) ? $os_matches[1] : 'Desconocido';
 
