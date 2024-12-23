@@ -42,6 +42,20 @@ try {
     echo '<div class="alert alert-danger" role="alert">Error al cargar empleados: ' . htmlspecialchars($e->getMessage()) . '</div>';
 }
 
+//TOTAL EMPLEADOS
+try {
+    $sql = "SELECT COUNT(*) AS total FROM EMPLEADOS";
+    $stmt = $conexion->prepare($sql);
+    $stmt->execute();
+    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Acceder al total de empleados
+    $total_empleados = $resultado['total'];
+} catch (Throwable $th) {
+    echo '<div class="alert alert-danger" role="alert">No se han encontrado empleados.</div>';
+}
+
+
 
 // FOTOS EMPLEADOS
 try {
@@ -62,12 +76,32 @@ try {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout'])) {
+    session_start();
+
+    try {
+        $numero_empleado = $_SESSION['numero_empleado'];
+
+        $sql = "SELECT ADMIN FROM EMPLEADOS WHERE NUMERO_EMPLEADO = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute([$numero_empleado]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && $user['ADMIN'] == 1) {
+            session_unset();
+            session_destroy();
+            header('Location: ../index.php');
+            exit();
+        }
+    } catch (PDOException $e) {
+        echo '<div class="alert alert-danger" role="alert">Error al verificar el estado de administrador: ' . htmlspecialchars($e->getMessage()) . '</div>';
+    }
+
     session_unset();
     session_destroy();
-
     header('Location: index.php');
     exit();
 }
+
 
 
 function calcularHorasTrabajo($hora_inicio, $hora_fin) {

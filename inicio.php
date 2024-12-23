@@ -24,12 +24,6 @@
                 <li>
                     <a class="d-flex text-dark" href="./actualizar_perfil.php">Actualizar perfil<i class="bi bi-pencil-square px-1"></i></a>
                 </li>
-                <!-- <li>
-                    <a class="d-flex text-dark" href="#" id="cambiarFoto">Actualizar foto <i class="bi bi-image px-1"></i></a>
-                    <form action="fotoperfil.php" method="post" enctype="multipart/form-data" style="display: none;" id="form-cambiar-foto">
-                        <input type="file" name="image" accept="image/*" id="input-foto" onchange="document.getElementById('form-cambiar-foto').submit();">
-                    </form>
-                </li> -->
                 <li>
                     <form method="POST" action="">
                         <button type="submit" name="logout" class="dropdown-item">
@@ -137,13 +131,6 @@
 
         setInterval(actualizarFechaHora, 1000);
     </script>
-
-    <script>
-        document.getElementById('cambiarFoto').addEventListener('click', function() {
-            document.getElementById('input-foto').click();
-        });
-    </script>
-
 
     <script>
         if (document.getElementById('alert-success')) {

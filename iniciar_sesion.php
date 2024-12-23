@@ -7,16 +7,23 @@
         $password = $_POST['password'];
 
         try {
-            $sql = "SELECT NUMERO_EMPLEADO, PASSWORD FROM EMPLEADOS WHERE EMAIL = ?";
+            $sql = "SELECT NUMERO_EMPLEADO, PASSWORD, ADMIN FROM EMPLEADOS WHERE EMAIL = ?";
             $stmt = $conexion->prepare($sql);
             $stmt->execute([$email]);
 
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($result && password_verify($password, $result['PASSWORD'])) {
-                $_SESSION['numero_empleado'] = $result['NUMERO_EMPLEADO'];
-                header('Location: inicio.php');
-                exit();
+            if ($user && password_verify($password, $user['PASSWORD'])) {
+                if ($user['ADMIN'] == 1) {
+                    $_SESSION['numero_empleado'] = $user['NUMERO_EMPLEADO'];
+                    $_SESSION['admin'] = true;
+                    header('Location: ./admin/inicio.php');
+                    exit();
+                } else {
+                    $_SESSION['numero_empleado'] = $user['NUMERO_EMPLEADO'];
+                    header('Location: inicio.php');
+                    exit();
+                }
             } else {
                 echo '<div class="alert alert-danger text-center alerta-fija" role="alert">Dirección de correo o contraseña incorrectos.</div>';
             }

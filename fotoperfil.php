@@ -25,12 +25,12 @@ if ($user) {
         }
     }
 
-
     $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
 
     $nuevoNombre = 'foto_' . $nombre . ' ' . $apellidos . '.' . $ext;
 
     $directorio = './img/foto_perfil/';
+
 
     $rutaDestino = $directorio . $nuevoNombre;
 

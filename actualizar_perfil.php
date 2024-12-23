@@ -107,7 +107,7 @@
                                     </span>
                                 </div>
                         </form>
-                        <button type="submit" class="btn btn-primary">Confirmar cambios</button>
+                        <button type="submit" class="btn btn-success">Confirmar cambios</button>
                         </div>
                     </td>
                     <td class="d-flex">

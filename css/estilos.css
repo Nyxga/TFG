@@ -58,7 +58,7 @@ aside li:last-child {
     justify-content: center !important;
   }
 
-  .dropdown-content li a{
+  .dropdown-content li a {
     width: 140px;
     text-align: center;
     justify-content: center;
@@ -92,13 +92,13 @@ aside li:last-child {
   }
 
   #inicio article table {
-    font-size: 12px; 
+    font-size: 12px;
   }
 }
 
 #inicio article button {
   width: 200px;
-} 
+}
 
 #control_horario {
   width: 100%;
@@ -106,21 +106,27 @@ aside li:last-child {
 
 @media (max-width: 480px) {
   #control_horario {
-      width: 100%;
+    width: 100%;
   }
 
   #control_horario table {
-      display: block;
+    display: block;
   }
 
   #control_horario table td {
-      display: block;
-      width: 100%;
-      margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
   }
 
   #actualizar_perfil {
     padding: 10px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #empleados input {
+    width: 100% !important;
   }
 }
 
@@ -308,7 +314,6 @@ a {
 .dropdown-item {
   width: 0% !important;
 }
-
 
 #actualizar_perfil {
   padding: 40px;
