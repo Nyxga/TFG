@@ -15,6 +15,7 @@
     include 'log_horario.php';
     ?>
 
+
     <header class="d-inline-flex justify-content-end align-items-center p-4 position-fixed top-0 end-0 w-100">
         <div class="dropdown">
             <button class="dropbtn">
@@ -71,6 +72,24 @@
         </section>
 
         <hr>
+
+        <section class="d-flex mt-4 mb-4">
+            <div>
+                <span><i class="bi bi-funnel-fill"></i> Filtrar</span>
+                <br>
+                <form method="POST" action="inicio.php">
+                    <div class="d-flex">
+                        <input id="filtrar-fecha" type="date" name="filtrar_fecha" class="rounded border border-dark" style="height: auto;">
+                        <button type="submit" class="btn btn-success mx-2">Buscar</button>
+                        <button type="button" class="btn btn-danger mx-2" onclick="location.href='inicio.php'">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+
 
         <article>
             <div class="table-responsive">
