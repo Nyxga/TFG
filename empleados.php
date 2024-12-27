@@ -8,20 +8,11 @@
     <link rel="stylesheet" href="./css/estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        header {
-            width: 100%;
-            justify-content: flex-start;
-            position: unset;
-            padding: 40px;
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
 
 <body id="empleados">
     <?php
-    include 'listar_empleados.php';
+    include './listar_empleados.php';
     ?>
 
 
@@ -55,12 +46,12 @@
                                         <?php if (!empty($empleado['FOTO'])): ?>
                                             <img src="<?php echo htmlspecialchars($empleado['FOTO']); ?>" alt="Foto de <?php echo htmlspecialchars($empleado['NOMBRE']); ?>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" id="img_tabla">
                                         <?php else: ?>
-                                            <img src="../img/foto_default.svg" alt="Foto no disponible" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                                            <img src="./img/foto_perfil/foto_default.svg" alt="Foto no disponible" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                                         <?php endif; ?>
                                     </td>
                                     <td><?php echo htmlspecialchars($empleado['NOMBRE'] . ' ' .$empleado['APELLIDOS']); ?></td>
                                     <td>
-                                        <form method="GET" action="../actualizar_perfil.php" style="display: inline;">
+                                        <form method="GET" action="./actualizar_perfil.php" style="display: inline;">
                                             <input type="hidden" name="usuario" value="<?php echo $empleado['NUMERO_EMPLEADO']; ?>">
                                             <button type="submit" class="btn btn-chat">
                                             <i class="bi bi-info-circle"></i>

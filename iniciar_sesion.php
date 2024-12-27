@@ -21,7 +21,8 @@
                     exit();
                 } else {
                     $_SESSION['numero_empleado'] = $user['NUMERO_EMPLEADO'];
-                    header('Location: inicio.php');
+                    $_SESSION['admin'] = false;
+                    header('Location: ./inicio.php');
                     exit();
                 }
             } else {

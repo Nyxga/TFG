@@ -33,36 +33,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['tipo'])) {
     }
 }
 
-// Manejo del filtro por fecha o reinicio
-$fecha_filtrada = isset($_POST['filtrar_fecha']) ? $_POST['filtrar_fecha'] : null;
-$reiniciar_filtro = isset($_POST['reiniciar_filtro']); // Verificar si se presionó el botón Reset
+// Manejo de los filtros por fecha y tipo
+$fecha_filtrada = !empty($_POST['filtrar_fecha']) ? $_POST['filtrar_fecha'] : null;
+$tipo_filtrado = !empty($_POST['filtrar_tipo']) ? $_POST['filtrar_tipo'] : null;
 
 try {
-    if ($reiniciar_filtro || !$fecha_filtrada) {
-        // Si se presionó "Reset" o no hay fecha filtrada, cargar todos los registros
-        $sql = "SELECT fecha_hora, tipo_fichaje, dispositivo 
-                FROM log_horarios 
-                WHERE numero_empleado = :numero_empleado 
-                ORDER BY fecha_hora DESC";
-        $stmt = $conexion->prepare($sql);
-        $stmt->bindParam(':numero_empleado', $numero_empleado, PDO::PARAM_INT);
-    } else {
-        // Consulta filtrada por fecha
-        $sql = "SELECT fecha_hora, tipo_fichaje, dispositivo 
-                FROM log_horarios 
-                WHERE numero_empleado = :numero_empleado AND DATE(fecha_hora) = :fecha_filtrada 
-                ORDER BY fecha_hora DESC";
-        $stmt = $conexion->prepare($sql);
-        $stmt->bindParam(':numero_empleado', $numero_empleado, PDO::PARAM_INT);
-        $stmt->bindParam(':fecha_filtrada', $fecha_filtrada, PDO::PARAM_STR);
+    // Consulta para obtener todos los registros de la tabla log_horarios
+    $sql_todos_registros = "SELECT * FROM log_horarios ORDER BY fecha_hora DESC";
+    $stmt_todos_registros = $conexion->prepare($sql_todos_registros);
+    $stmt_todos_registros->execute();
+    $registros_todos = $stmt_todos_registros->fetchAll(PDO::FETCH_ASSOC);
+
+    // Construir la consulta SQL dinámicamente para los filtros
+    $sql_filtrada = "SELECT fecha_hora, tipo_fichaje, dispositivo 
+                     FROM log_horarios 
+                     WHERE numero_empleado = :numero_empleado";
+
+    if ($fecha_filtrada) {
+        $sql_filtrada .= " AND DATE(fecha_hora) = :fecha_filtrada";
+    }
+    if ($tipo_filtrado) {
+        $sql_filtrada .= " AND tipo_fichaje = :tipo_filtrado";
+    }
+    $sql_filtrada .= " ORDER BY fecha_hora DESC";
+
+    $stmt_filtrada = $conexion->prepare($sql_filtrada);
+    $stmt_filtrada->bindParam(':numero_empleado', $numero_empleado, PDO::PARAM_INT);
+
+    if ($fecha_filtrada) {
+        $stmt_filtrada->bindParam(':fecha_filtrada', $fecha_filtrada, PDO::PARAM_STR);
+    }
+    if ($tipo_filtrado) {
+        $stmt_filtrada->bindParam(':tipo_filtrado', $tipo_filtrado, PDO::PARAM_STR);
     }
 
-    $stmt->execute();
-    $empleados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt_filtrada->execute();
+    $empleados_filtrados = $stmt_filtrada->fetchAll(PDO::FETCH_ASSOC);
 
-    if (!$empleados) {
-        echo "No se encontraron registros de fichaje.";
+    if (!$empleados_filtrados) {
+        echo "No se encontraron registros con los filtros aplicados.";
     }
 } catch (PDOException $e) {
     echo '<div class="alert alert-danger" role="alert">Error al cargar el historial: ' . htmlspecialchars($e->getMessage()) . '</div>';
 }
+?>

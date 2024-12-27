@@ -12,7 +12,7 @@
 
 <body id="inicio">
     <?php
-    include 'log_horario.php';
+    include './log_horario.php';
     ?>
 
 
@@ -23,7 +23,7 @@
             </button>
             <div class="dropdown-content">
                 <li>
-                    <a class="d-flex text-dark" href="./actualizar_perfil.php">Actualizar perfil<i class="bi bi-pencil-square px-1"></i></a>
+                    <a class="d-flex text-dark" href="#" onclick="location.href='./actualizar_perfil.php?usuario=' + <?php echo $_SESSION['numero_empleado']; ?>">Actualizar perfil<i class="bi bi-pencil-square px-1"></i></a>
                 </li>
                 <li>
                     <form method="POST" action="">
@@ -75,25 +75,41 @@
 
         <section class="d-flex mt-4 mb-4">
             <div>
-                <span><i class="bi bi-funnel-fill"></i> Filtrar</span>
+                <span><i class="bi bi-funnel-fill"></i> Filtrar fecha y tipo</span>
                 <br>
-                <form method="POST" action="inicio.php">
-                    <div class="d-flex">
-                        <input id="filtrar-fecha" type="date" name="filtrar_fecha" class="rounded border border-dark" style="height: auto;">
-                        <button type="submit" class="btn btn-success mx-2">Buscar</button>
-                        <button type="button" class="btn btn-danger mx-2" onclick="location.href='inicio.php'">
-                            <i class="bi bi-arrow-clockwise"></i>
-                        </button>
+                <form method="POST" action="inicio.php" id="form_filtrar">
+                    <div class="d-flex mt-2">
+                        <input id="filtrar_fecha" type="date" name="filtrar_fecha" class="rounded border text-center" style="height: auto;">
+                        <select name="filtrar_tipo" class="form-select mx-2 w-50">
+                            <option value="" selected disabled hidden>Tipo</option>
+                            <option value="Entrada">Entrada</option>
+                            <option value="Salida">Salida</option>
+                            <option value="Inicio Descanso">Inicio descanso</option>
+                            <option value="Fin Descanso">Fin descanso</option>
+                        </select>
+                    </div>
+                    <div class="d-flex mt-2">
+                        <button type="submit" name="buscar" class="btn btn-primary">
+                            <i class="bi bi-search"></i><span> Buscar</span>
+                        </button> 
                     </div>
                 </form>
-
+                <div class="d-inline">
+                    <form method="POST" action="generar_excel.php" class="d-flex mt-2">
+                        <input type="hidden" name="filtrar_fecha" value="<?php echo isset($_POST['filtrar_fecha']) ? $_POST['filtrar_fecha'] : ''; ?>">
+                        <input type="hidden" name="filtrar_tipo" value="<?php echo isset($_POST['filtrar_tipo']) ? $_POST['filtrar_tipo'] : ''; ?>">
+                        <button type="submit" class="btn btn-success" formtarget="_blank">
+                            <i class="bi bi-file-earmark-excel"></i> Generar EXCEL
+                        </button>
+                    </form>
+                </div>
             </div>
         </section>
 
 
         <article>
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table id="tabla_fichajes" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Hora</th>
@@ -110,12 +126,17 @@
 
                                 // Definir las clases en función del tipo de fichaje
                                 $clase_tipo = '';
-                                if ($empleado['tipo_fichaje'] == 'Entrada' || $empleado['tipo_fichaje'] == 'Inicio descanso') {
-                                    $clase_tipo = 'table-success'; // Color verde
-                                } elseif ($empleado['tipo_fichaje'] == 'Salida' || $empleado['tipo_fichaje'] == 'Fin descanso') {
-                                    $clase_tipo = 'table-danger'; // Color rojo
+                                if ($empleado['tipo_fichaje'] == 'Entrada') {
+                                    $clase_tipo = 'table-success';
+                                } elseif ($empleado['tipo_fichaje'] == 'Salida') {
+                                    $clase_tipo = 'table-danger';
+                                } elseif ($empleado['tipo_fichaje'] == 'Inicio descanso') {
+                                    $clase_tipo = 'table-warning';
+                                } elseif ($empleado['tipo_fichaje'] == 'Fin descanso') {
+                                    $clase_tipo = 'table-warning';
                                 }
                                 ?>
+                                <td><?php echo $nombre; ?></td>
                                 <td><?php echo $fecha_formateada; ?></td>
                                 <td class="<?php echo $clase_tipo; ?>"><?php echo $empleado['tipo_fichaje']; ?></td>
                                 <td><?php echo $empleado['dispositivo']; ?></td>

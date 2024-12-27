@@ -2,7 +2,7 @@
 session_start();
 require 'conexion.php';
 
-$foto_predeterminada = './img/foto_default.svg';
+$foto_predeterminada = './img/foto_perfil/foto_default.svg';
 
 if (isset($_SESSION['foto_actualizada'])) {
     $mensaje = $_SESSION['foto_actualizada'];
