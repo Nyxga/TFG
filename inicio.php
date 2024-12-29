@@ -15,7 +15,6 @@
     include './log_horario.php';
     ?>
 
-
     <header class="d-inline-flex justify-content-end align-items-center p-4 position-fixed top-0 end-0 w-100">
         <div class="dropdown">
             <button class="dropbtn">
@@ -52,20 +51,34 @@
                             <button type="submit" name="tipo" value="Entrada" class="btn btn-success" onclick="return confirmarFichaje('Entrada')">⏰ Entrada</button>
                         </td>
                         <td>
-                            <button type="submit" name="tipo" value="Salida" class="btn btn-danger" onclick="return confirmarFichaje('Salida')">🚪 Salida</button>
+                            <button type="submit" name="tipo" value="Inicio Descanso" class="btn btn-success" onclick="return confirmarFichaje('Inicio Descanso')">☕ Inicio descanso</button>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button type="submit" name="tipo" value="Inicio Descanso" class="btn btn-success" onclick="return confirmarFichaje('Inicio Descanso')">☕ Inicio descanso</button>
+                            <button type="submit" name="tipo" value="Fin Descanso" class="btn btn-danger" onclick="return confirmarFichaje('Fin Descanso')">🔄 Fin descanso</button>
                         </td>
                         <td>
-                            <button type="submit" name="tipo" value="Fin Descanso" class="btn btn-danger" onclick="return confirmarFichaje('Fin Descanso')">🔄 Fin descanso</button>
+                            <button type="submit" name="tipo" value="Salida" class="btn btn-danger" onclick="return confirmarFichaje('Salida')">🚪 Salida</button>
                         </td>
                     </tr>
                 </table>
             </form>
         </article>
+
+        <section class="d-flex text-center justify-content-center mt-4 mb-4">
+            <?php
+            if (isset($_SESSION['error_message'])) {
+                echo '<div class="alert alert-danger" role="alert">' . $_SESSION['error_message'] . '</div>';
+                unset($_SESSION['error_message']); // Elimina el mensaje después de mostrarlo
+            }
+
+            if (isset($_SESSION['success_message'])) {
+                echo '<div class="alert alert-success" role="alert">' . $_SESSION['success_message'] . '</div>';
+                unset($_SESSION['success_message']); // Elimina el mensaje después de mostrarlo
+            }
+            ?>
+        </section>
 
         <section id="titulo_historial" class="d-flex mt-4 mb-4">
             <h2>Historial de fichaje</h2>
@@ -91,17 +104,27 @@
                     <div class="d-flex mt-2">
                         <button type="submit" name="buscar" class="btn btn-primary">
                             <i class="bi bi-search"></i><span> Buscar</span>
-                        </button> 
+                        </button>
+                        <button type="button" class="btn btn-danger mx-3" onclick="window.location.href='inicio.php'">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
                     </div>
                 </form>
                 <div class="d-inline">
-                    <form method="POST" action="generar_excel.php" class="d-flex mt-2">
-                        <input type="hidden" name="filtrar_fecha" value="<?php echo isset($_POST['filtrar_fecha']) ? $_POST['filtrar_fecha'] : ''; ?>">
-                        <input type="hidden" name="filtrar_tipo" value="<?php echo isset($_POST['filtrar_tipo']) ? $_POST['filtrar_tipo'] : ''; ?>">
-                        <button type="submit" class="btn btn-success" formtarget="_blank">
-                            <i class="bi bi-file-earmark-excel"></i> Generar EXCEL
-                        </button>
-                    </form>
+                    <div class="d-inline">
+                        <div class="d-inline">
+                            <form method="POST" action="generar_excel.php" class="d-flex mt-2">
+                                <input type="hidden" name="numero_empleado" value="<?php echo $_SESSION['numero_empleado']; ?>">
+                                <input type="hidden" name="filtrar_fecha" value="<?php echo isset($_POST['filtrar_fecha']) ? $_POST['filtrar_fecha'] : ''; ?>">
+                                <input type="hidden" name="filtrar_tipo" value="<?php echo isset($_POST['filtrar_tipo']) ? $_POST['filtrar_tipo'] : ''; ?>">
+                                <button type="submit" class="btn btn-success" formtarget="_blank">
+                                    <i class="bi bi-file-earmark-excel"></i> Generar EXCEL
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -136,7 +159,6 @@
                                     $clase_tipo = 'table-warning';
                                 }
                                 ?>
-                                <td><?php echo $nombre; ?></td>
                                 <td><?php echo $fecha_formateada; ?></td>
                                 <td class="<?php echo $clase_tipo; ?>"><?php echo $empleado['tipo_fichaje']; ?></td>
                                 <td><?php echo $empleado['dispositivo']; ?></td>

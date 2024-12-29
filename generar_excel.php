@@ -4,72 +4,97 @@ require './vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-include('log_horario.php');
+// Iniciar sesión para verificar permisos
+session_start();
+include 'conexion.php'; // Incluye la conexión a la base de datos
 
-$fecha_filtrada = !empty($_POST['filtrar_fecha']) ? $_POST['filtrar_fecha'] : null;
-$tipo_filtrado = !empty($_POST['filtrar_tipo']) ? $_POST['filtrar_tipo'] : null;
+// Verificar si el usuario es administrador
+$es_admin = isset($_SESSION['es_admin']) && $_SESSION['es_admin'] === true;
 
-$sql = "SELECT log_horarios.fecha_hora, log_horarios.tipo_fichaje, log_horarios.dispositivo, empleados.nombre, empleados.apellidos
-    FROM log_horarios
-    INNER JOIN empleados ON log_horarios.numero_empleado = empleados.numero_empleado
-    WHERE log_horarios.numero_empleado = :numero_empleado";
+// Verificar si se proporcionaron datos desde historial_fichajes.php
+if (!empty($_POST['filtros_sql'])) {
+    $fichajes = unserialize(base64_decode($_POST['filtros_sql']));
+} else {
+    // Si no hay datos, obtener registros del usuario actual
+    $numero_empleado = $_SESSION['numero_empleado'] ?? null;
 
-if ($fecha_filtrada) {
-    $sql .= " AND DATE(log_horarios.fecha_hora) = :fecha_filtrada";
+    if (!$es_admin && !$numero_empleado) {
+        die("Error: No se proporcionaron datos para generar el Excel.");
+    }
+
+    $sql = "SELECT l.fecha_hora, l.tipo_fichaje, l.dispositivo, l.ip, e.nombre, e.apellidos 
+            FROM log_horarios l 
+            JOIN empleados e ON l.numero_empleado = e.numero_empleado";
+    $filtros = [];
+
+    if (!$es_admin) {
+        $filtros[] = "l.numero_empleado = :numero_empleado";
+    }
+    if (!empty($_POST['filtrar_fecha'])) {
+        $filtros[] = "DATE(l.fecha_hora) = :filtrar_fecha";
+    }
+    if (!empty($_POST['filtrar_tipo'])) {
+        $filtros[] = "l.tipo_fichaje = :filtrar_tipo";
+    }
+
+    if (!empty($filtros)) {
+        $sql .= " WHERE " . implode(' AND ', $filtros);
+    }
+
+    $sql .= " ORDER BY l.fecha_hora DESC";
+
+    $stmt = $conexion->prepare($sql);
+
+    if (!$es_admin) {
+        $stmt->bindParam(':numero_empleado', $numero_empleado, PDO::PARAM_INT);
+    }
+    if (!empty($_POST['filtrar_fecha'])) {
+        $stmt->bindParam(':filtrar_fecha', $_POST['filtrar_fecha'], PDO::PARAM_STR);
+    }
+    if (!empty($_POST['filtrar_tipo'])) {
+        $stmt->bindParam(':filtrar_tipo', $_POST['filtrar_tipo'], PDO::PARAM_STR);
+    }
+
+    $stmt->execute();
+    $fichajes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (empty($fichajes)) {
+        die("Error: No se encontraron datos para generar el Excel.");
+    }
 }
-if ($tipo_filtrado) {
-    $sql .= " AND log_horarios.tipo_fichaje = :tipo_filtrado";
-}
 
-$sql .= " ORDER BY log_horarios.fecha_hora DESC";
-
-$stmt = $conexion->prepare($sql);
-$stmt->bindParam(':numero_empleado', $numero_empleado, PDO::PARAM_INT);
-
-if ($fecha_filtrada) {
-    $stmt->bindParam(':fecha_filtrada', $fecha_filtrada, PDO::PARAM_STR);
-}
-if ($tipo_filtrado) {
-    $stmt->bindParam(':tipo_filtrado', $tipo_filtrado, PDO::PARAM_STR);
-}
-
-$stmt->execute();
-$empleados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+// Crear el archivo Excel
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
+// Encabezados de la tabla
 $sheet->setCellValue('A1', 'Nombre');
 $sheet->setCellValue('B1', 'Apellidos');
-$sheet->setCellValue('C1', 'Fecha');
-$sheet->setCellValue('D1', 'Hora');
-$sheet->setCellValue('E1', 'Tipo');
-$sheet->setCellValue('F1', 'Dispositivo');
+$sheet->setCellValue('C1', 'Fecha y Hora');
+$sheet->setCellValue('D1', 'Tipo de Fichaje');
+$sheet->setCellValue('E1', 'Dispositivo');
+$sheet->setCellValue('F1', 'Dirección IP');
 
 $sheet->getStyle('A1:F1')->getFont()->setBold(true);
 
+// Rellenar las filas con los datos
 $row = 2;
-foreach ($empleados as $empleado) {
-    $fecha = new DateTime($empleado['fecha_hora']);
-    $fecha_formateada = $fecha->format('d/m/Y');
-    $hora_formateada = $fecha->format('G:i:s');
-
-    $sheet->setCellValue('A' . $row, $empleado['nombre']);
-    $sheet->setCellValue('B' . $row, $empleado['apellidos']);
-    $sheet->setCellValue('C' . $row, $fecha_formateada);
-    $sheet->setCellValue('D' . $row, $hora_formateada);
-    $sheet->setCellValue('E' . $row, $empleado['tipo_fichaje']);
-    $sheet->setCellValue('F' . $row, $empleado['dispositivo']);
+foreach ($fichajes as $fichaje) {
+    $sheet->setCellValue('A' . $row, $fichaje['nombre']);
+    $sheet->setCellValue('B' . $row, $fichaje['apellidos']);
+    $sheet->setCellValue('C' . $row, $fichaje['fecha_hora']);
+    $sheet->setCellValue('D' . $row, $fichaje['tipo_fichaje']);
+    $sheet->setCellValue('E' . $row, $fichaje['dispositivo']);
+    $sheet->setCellValue('F' . $row, $fichaje['ip']);
     $row++;
 }
 
-$sheet->getColumnDimension('A')->setAutoSize(true);
-$sheet->getColumnDimension('B')->setAutoSize(true);
-$sheet->getColumnDimension('C')->setAutoSize(true);
-$sheet->getColumnDimension('D')->setAutoSize(true);
-$sheet->getColumnDimension('E')->setAutoSize(true);
-$sheet->getColumnDimension('F')->setAutoSize(true);
+// Ajustar el ancho de las columnas
+foreach (range('A', 'F') as $col) {
+    $sheet->getColumnDimension($col)->setAutoSize(true);
+}
 
+// Generar el archivo Excel
 $writer = new Xlsx($spreadsheet);
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -78,4 +103,3 @@ header('Cache-Control: max-age=0');
 
 $writer->save('php://output');
 exit();
-?>

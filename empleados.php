@@ -32,8 +32,14 @@
         <article>
             <div class="table-responsive">
                 <div>
-                    <form method="GET" action="" class="d-flex justify-content-center">
-                        <input type="text" name="busqueda" class="form-control w-auto text-center" placeholder="Buscar" value="<?php echo htmlspecialchars($busqueda); ?>">
+                    <form method="GET" action="" class="d-flex justify-content-center p-4">
+                        <input type="text" name="busqueda" class="form-control w-auto text-center" placeholder="Nombre" value="<?php echo htmlspecialchars($busqueda); ?>">
+                        <button type="submit" name="buscar" class="btn btn-primary mx-4">
+                            <i class="bi bi-search"></i><span id="span_buscar"> Buscar</span>
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="window.location.href='./empleados.php'">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
                     </form>
                 </div>
                 <br>
@@ -43,16 +49,16 @@
                             <?php foreach ($empleados as $empleado): ?>
                                 <tr>
                                     <td>
-                                        <?php if (!empty($empleado['FOTO'])): ?>
-                                            <img src="<?php echo htmlspecialchars($empleado['FOTO']); ?>" alt="Foto de <?php echo htmlspecialchars($empleado['NOMBRE']); ?>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" id="img_tabla">
+                                        <?php if (!empty($empleado['foto'])): ?>
+                                            <img src="<?php echo htmlspecialchars($empleado['foto']); ?>" alt="Foto de <?php echo htmlspecialchars($empleado['nombre']); ?>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" id="img_tabla">
                                         <?php else: ?>
                                             <img src="./img/foto_perfil/foto_default.svg" alt="Foto no disponible" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                                         <?php endif; ?>
                                     </td>
-                                    <td><?php echo htmlspecialchars($empleado['NOMBRE'] . ' ' .$empleado['APELLIDOS']); ?></td>
+                                    <td><?php echo htmlspecialchars($empleado['nombre'] . ' ' .$empleado['apellidos']); ?></td>
                                     <td>
                                         <form method="GET" action="./actualizar_perfil.php" style="display: inline;">
-                                            <input type="hidden" name="usuario" value="<?php echo $empleado['NUMERO_EMPLEADO']; ?>">
+                                            <input type="hidden" name="usuario" value="<?php echo $empleado['numero_empleado']; ?>">
                                             <button type="submit" class="btn btn-chat">
                                             <i class="bi bi-info-circle"></i>
                                             </button>

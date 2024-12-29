@@ -11,7 +11,7 @@ if (isset($_SESSION['foto_actualizada'])) {
 
 // Asegurarnos de que el número de empleado esté en la sesión
 if (!isset($_SESSION['numero_empleado'])) {
-    header('Location: index.php');
+    header('Location: ./index.php');
     exit();
 }
 
@@ -22,14 +22,14 @@ $numero_empleado = $_SESSION['numero_empleado'];  // Suponiendo que tienes el n�
 
 try {
     // Consulta SQL con filtro de búsqueda y exclusión del usuario logueado
-    $sql = "SELECT NUMERO_EMPLEADO, NOMBRE, APELLIDOS, EMAIL, FOTO FROM EMPLEADOS WHERE NUMERO_EMPLEADO != :numero_empleado";
-    
+    $sql = "select numero_empleado, nombre, apellidos, username, foto from empleados where numero_empleado != :numero_empleado";
+
     // Si hay una búsqueda, añadimos los filtros correspondientes
     if (!empty($busqueda)) {
-        $sql .= " AND (NOMBRE LIKE :busqueda OR APELLIDOS LIKE :busqueda OR EMAIL LIKE :busqueda)";
+        $sql .= " and (nombre like :busqueda or apellidos like :busqueda or username like :busqueda)";
     }
-    
-    $sql .= " ORDER BY NOMBRE ASC, APELLIDOS ASC";
+
+    $sql .= " order by nombre asc, apellidos asc";
 
     $stmt = $conexion->prepare($sql);
     $stmt->bindValue(':numero_empleado', $numero_empleado, PDO::PARAM_INT);  // Excluir al usuario logueado
@@ -44,7 +44,7 @@ try {
 
 //TOTAL EMPLEADOS
 try {
-    $sql = "SELECT COUNT(*) AS total FROM EMPLEADOS";
+    $sql = "select count(*) as total from empleados";
     $stmt = $conexion->prepare($sql);
     $stmt->execute();
     $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -55,21 +55,19 @@ try {
     echo '<div class="alert alert-danger" role="alert">No se han encontrado empleados.</div>';
 }
 
-
-
 // FOTOS EMPLEADOS
 try {
     $numero_empleado = $_SESSION['numero_empleado']; // Usamos el número de empleado desde la sesión
-    $sql = "SELECT NUMERO_EMPLEADO, NOMBRE, APELLIDOS, FOTO, EMAIL FROM EMPLEADOS WHERE NUMERO_EMPLEADO = ?";
+    $sql = "select numero_empleado, nombre, apellidos, foto, username from empleados where numero_empleado = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->execute([$numero_empleado]); // Pasamos el número de empleado en la consulta
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        $nombre = htmlspecialchars($user['NOMBRE']);
-        $apellidos = htmlspecialchars($user['APELLIDOS']);
-        $foto_url = htmlspecialchars($user['FOTO']);
-        $email = htmlspecialchars($user['EMAIL']);
+        $nombre = htmlspecialchars($user['nombre']);
+        $apellidos = htmlspecialchars($user['apellidos']);
+        $foto_url = htmlspecialchars($user['foto']);
+        $username = htmlspecialchars($user['username']);
     }
 } catch (PDOException $e) {
     echo '<div class="alert alert-danger" role="alert">Error: ' . htmlspecialchars($e->getMessage()) . '</div>';
@@ -81,12 +79,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout'])) {
     try {
         $numero_empleado = $_SESSION['numero_empleado'];
 
-        $sql = "SELECT ADMIN FROM EMPLEADOS WHERE NUMERO_EMPLEADO = ?";
+        $sql = "select admin from empleados where numero_empleado = ?";
         $stmt = $conexion->prepare($sql);
         $stmt->execute([$numero_empleado]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && $user['ADMIN'] == 1) {
+        if ($user && $user['admin'] == 1) {
             session_unset();
             session_destroy();
             header('Location: ../index.php');
@@ -98,13 +96,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout'])) {
 
     session_unset();
     session_destroy();
-    header('Location: index.php');
+    header('Location: ./index.php');
     exit();
 }
 
-
-
-function calcularHorasTrabajo($hora_inicio, $hora_fin) {
+function calcularHorasTrabajo($hora_inicio, $hora_fin)
+{
     $inicio = new DateTime($hora_inicio);
     $fin = new DateTime($hora_fin);
 

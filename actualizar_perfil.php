@@ -11,72 +11,72 @@
 </head>
 
 <body id="actualizar_perfil">
-<?php
-include 'listar_empleados.php';
+    <?php
+    include 'listar_empleados.php';
 
-if (!isset($_SESSION['numero_empleado'])) {
-    die('Acceso denegado. Por favor, inicie sesión.');
-}
-
-$rol_sesion = $_SESSION['admin']; // Asegúrate de que 'rol' esté guardado en la sesión
-
-// Verificar si se recibió el parámetro 'usuario' en la URL
-if (isset($_GET['usuario'])) {
-    $numero_empleado = $_GET['usuario'];
-
-    if ($numero_empleado != $_SESSION['numero_empleado'] && $rol_sesion != 'admin') {
-        die('No tienes permisos para modificar la contraseña de otro empleado.');
+    if (!isset($_SESSION['numero_empleado'])) {
+        die('Acceso denegado. Por favor, inicie sesión.');
     }
 
-    try {
-        $sql = "SELECT * FROM empleados WHERE numero_empleado = ?";
-        $stmt = $conexion->prepare($sql);
-        $stmt->execute([$numero_empleado]);
-        $empleado = $stmt->fetch(PDO::FETCH_ASSOC);
+    $rol_sesion = $_SESSION['admin'];
 
-        if (!$empleado) {
-            die('Empleado no encontrado.');
+    if (isset($_GET['usuario'])) {
+        $numero_empleado = $_GET['usuario'];
+
+        if ($numero_empleado != $_SESSION['numero_empleado'] && $rol_sesion != 'admin') {
+            die('No tienes permisos para modificar la contraseña de otro empleado.');
         }
-    } catch (PDOException $e) {
-        die('Error al consultar los datos del empleado: ' . $e->getMessage());
-    }
-} else {
-    die('No se especificó un empleado.');
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
-
-    if ($password === $confirm_password) {
-        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
         try {
-            $sql = "UPDATE empleados SET password = ? WHERE numero_empleado = ?";
+            $sql = "SELECT * FROM empleados WHERE numero_empleado = ?";
             $stmt = $conexion->prepare($sql);
-            $stmt->execute([$hashed_password, $numero_empleado]);
+            $stmt->execute([$numero_empleado]);
+            $empleado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $_SESSION['successMensaje'] = 'Contraseña actualizada correctamente.';
-            header('Location: actualizar_perfil.php?usuario=' . $numero_empleado);
-            exit;
+            if (!$empleado) {
+                die('Empleado no encontrado.');
+            }
         } catch (PDOException $e) {
-            $_SESSION['errorMensaje'] = 'Error al actualizar la contraseña.';
+            die('Error al consultar los datos del empleado: ' . $e->getMessage());
+        }
+    } else {
+        die('No se especificó un empleado.');
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $password = $_POST['password'];
+        $confirm_password = $_POST['confirm_password'];
+
+        if ($password === $confirm_password) {
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+            try {
+                $sql = "UPDATE empleados SET password = ? WHERE numero_empleado = ?";
+                $stmt = $conexion->prepare($sql);
+                $stmt->execute([$hashed_password, $numero_empleado]);
+
+                $_SESSION['successMensaje'] = 'Contraseña actualizada correctamente.';
+                header('Location: actualizar_perfil.php?usuario=' . $numero_empleado);
+                exit;
+            } catch (PDOException $e) {
+                $_SESSION['errorMensaje'] = 'Error al actualizar la contraseña.';
+                header('Location: actualizar_perfil.php?usuario=' . $numero_empleado);
+                exit;
+            }
+        } else {
+            $_SESSION['warningMensaje'] = 'Las contraseñas no coinciden.';
             header('Location: actualizar_perfil.php?usuario=' . $numero_empleado);
             exit;
         }
-    } else {
-        $_SESSION['warningMensaje'] = 'Las contraseñas no coinciden.';
-        header('Location: actualizar_perfil.php?usuario=' . $numero_empleado);
-        exit;
     }
-}
-?>
+    ?>
 
-    <!-- <header class="p-4 mb-0">
-        <a href="./empleados.php">
-            <h6 style="color: #0c0e66;"><i class="bi bi-house-fill"></i> Volver a la lista de empleados</h6>
+    <header class="p-4 mb-0">
+        <a href="<?php echo $rol_sesion ? './admin/inicio.php' : './inicio.php'; ?>">
+            <h6 style="color: #0c0e66;"><i class="bi bi-house-fill"></i> Volver a inicio</h6>
         </a>
-    </header> -->
+    </header>
+
 
     <main class="h-100 p-4">
         <section class="d-flex">
@@ -112,13 +112,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <form action="?usuario=<?php echo $numero_empleado; ?>" method="POST">
                             <div id="contenedor_info_perfil">
                                 <label>Nombre</label>
-                                <input type="text" class="form-control mb-4 w-auto" readonly disabled value="<?php echo htmlspecialchars($empleado['NOMBRE']); ?>">
+                                <input type="text" class="form-control mb-4 w-auto" readonly disabled value="<?php echo htmlspecialchars($empleado['NOMBRE'] ?? ''); ?>">
 
                                 <label>Apellidos</label>
-                                <input type="text" class="form-control mb-4 w-auto" readonly disabled value="<?php echo htmlspecialchars($empleado['APELLIDOS']); ?>">
+                                <input type="text" class="form-control mb-4 w-auto" readonly disabled value="<?php echo htmlspecialchars($empleado['APELLIDOS'] ?? ''); ?>">
 
-                                <label>Correo electrónico</label>
-                                <input type="text" class="form-control mb-4 w-auto" readonly disabled value="<?php echo htmlspecialchars($empleado['EMAIL']); ?>">
+                                <label>Nombre de usuario</label>
+                                <input type="text" class="form-control mb-4 w-auto" readonly disabled value="<?php echo htmlspecialchars($empleado['USERNAME'] ?? ''); ?>">
 
                                 <label for="password">Nueva contraseña</label>
                                 <div class="input-group mb-4 w-auto">
@@ -147,9 +147,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <img src="<?php echo htmlspecialchars($empleado['FOTO']); ?>" alt="Foto de perfil">
                             </button>
 
-                            <form action="fotoperfil.php" method="post" enctype="multipart/form-data" style="display: none;" id="form-cambiar-foto">
+                            <form action="fotoperfil.php?usuario=<?php echo $numero_empleado; ?>" method="post" enctype="multipart/form-data" style="display: none;" id="form-cambiar-foto">
                                 <input type="file" name="image" accept="image/*" id="input-foto" onchange="document.getElementById('form-cambiar-foto').submit();">
                             </form>
+
                         </div>
                     </td>
                 </tr>
