@@ -72,8 +72,8 @@
     ?>
 
     <header class="p-4 mb-0">
-        <a href="<?php echo $rol_sesion ? './admin/inicio.php' : './inicio.php'; ?>">
-            <h6 style="color: #0c0e66;"><i class="bi bi-house-fill"></i> Volver a inicio</h6>
+        <a href="<?php echo $rol_sesion ? './admin/empleados.php' : './inicio.php'; ?>">
+            <h6 class="text-dark"><i class="bi bi-house-fill text-dark"></i> Volver a inicio</h6>
         </a>
     </header>
 
@@ -156,10 +156,6 @@
                 </tr>
             </table>
         </article>
-
-        <!-- <section class="d-flex position-absolute bottom-0 start-0 p-1">
-            <a href="./inicio.php" class="text-dark"><i class="bi bi-arrow-bar-left"></i> Volver a inicio</a>
-        </section> -->
     </main>
 
 

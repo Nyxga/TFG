@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     try {
-        $sql = "select numero_empleado, password, admin from empleados where username = ?";
+        $sql = "select numero_empleado, username, password, admin from empleados where username = ?";
         $stmt = $conexion->prepare($sql);
         $stmt->execute([$username]);
 
@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exit();
             } else {
                 $_SESSION['numero_empleado'] = $user['numero_empleado'];
+                $_SESSION['username'] = $user['username'];
                 $_SESSION['admin'] = false;
                 header('Location: ./inicio.php');
                 exit();

@@ -25,6 +25,9 @@
                     <a class="d-flex text-dark" href="#" onclick="location.href='./actualizar_perfil.php?usuario=' + <?php echo $_SESSION['numero_empleado']; ?>">Actualizar perfil<i class="bi bi-pencil-square px-1"></i></a>
                 </li>
                 <li>
+                    <a class="d-flex text-dark" href="./planificacion.php">Planificación <i class="bi bi-calendar4-week px-1"></i></a>
+                </li>
+                <li>
                     <form method="POST" action="">
                         <button type="submit" name="logout" class="dropdown-item">
                             Cerrar sesión <i class="bi bi-box-arrow-right px-1"></i>
@@ -70,12 +73,12 @@
             <?php
             if (isset($_SESSION['error_message'])) {
                 echo '<div class="alert alert-danger" role="alert">' . $_SESSION['error_message'] . '</div>';
-                unset($_SESSION['error_message']); // Elimina el mensaje después de mostrarlo
+                unset($_SESSION['error_message']);
             }
 
             if (isset($_SESSION['success_message'])) {
                 echo '<div class="alert alert-success" role="alert">' . $_SESSION['success_message'] . '</div>';
-                unset($_SESSION['success_message']); // Elimina el mensaje después de mostrarlo
+                unset($_SESSION['success_message']);
             }
             ?>
         </section>
@@ -92,7 +95,7 @@
                 <br>
                 <form method="POST" action="inicio.php" id="form_filtrar">
                     <div class="d-flex mt-2">
-                        <input id="filtrar_fecha" type="date" name="filtrar_fecha" class="rounded border text-center" style="height: auto;">
+                        <input id="filtrar_fecha" type="date" name="filtrar_fecha" class="rounded border text-center" max="9999-12-31" style="height: auto;">
                         <select name="filtrar_tipo" class="form-select mx-2 w-50">
                             <option value="" selected disabled hidden>Tipo</option>
                             <option value="Entrada">Entrada</option>
@@ -105,7 +108,7 @@
                         <button type="submit" name="buscar" class="btn btn-primary">
                             <i class="bi bi-search"></i><span> Buscar</span>
                         </button>
-                        <button type="button" class="btn btn-danger mx-3" onclick="window.location.href='inicio.php'">
+                        <button type="button" class="btn btn-danger mx-3" onclick="window.location.href='./inicio.php'">
                             <i class="bi bi-arrow-clockwise"></i>
                         </button>
                     </div>
@@ -113,8 +116,8 @@
                 <div class="d-inline">
                     <div class="d-inline">
                         <div class="d-inline">
-                            <form method="POST" action="generar_excel.php" class="d-flex mt-2">
-                                <input type="hidden" name="numero_empleado" value="<?php echo $_SESSION['numero_empleado']; ?>">
+                            <form method="POST" action="./generar_excel.php" class="d-flex mt-2">
+                                <input type="hidden" name="username" value="<?php echo $_SESSION['username']; ?>">
                                 <input type="hidden" name="filtrar_fecha" value="<?php echo isset($_POST['filtrar_fecha']) ? $_POST['filtrar_fecha'] : ''; ?>">
                                 <input type="hidden" name="filtrar_tipo" value="<?php echo isset($_POST['filtrar_tipo']) ? $_POST['filtrar_tipo'] : ''; ?>">
                                 <button type="submit" class="btn btn-success" formtarget="_blank">
@@ -147,7 +150,6 @@
                                 $fecha = new DateTime($empleado['fecha_hora']);
                                 $fecha_formateada = $fecha->format('d/m/Y G:i:s');
 
-                                // Definir las clases en función del tipo de fichaje
                                 $clase_tipo = '';
                                 if ($empleado['tipo_fichaje'] == 'Entrada') {
                                     $clase_tipo = 'table-success';
@@ -172,7 +174,6 @@
     </main>
 
 
-    <!-- NO TOCAR -->
     <script>
         function actualizarFechaHora() {
             const ahora = new Date();
@@ -192,15 +193,6 @@
         actualizarFechaHora();
 
         setInterval(actualizarFechaHora, 1000);
-    </script>
-
-    <script>
-        if (document.getElementById('alert-success')) {
-            setTimeout(function() {
-                var alerta = new bootstrap.Alert(document.getElementById('alerta-success'));
-                alerta.close();
-            }, 5000);
-        }
     </script>
 
     <script>

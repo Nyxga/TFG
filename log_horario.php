@@ -1,5 +1,4 @@
 <?php
-// Configurar zona horaria y conexión
 date_default_timezone_set('Europe/Madrid');
 include 'listar_empleados.php';
 
@@ -10,7 +9,6 @@ if (!isset($_SESSION['numero_empleado'])) {
 
 $numero_empleado = $_SESSION['numero_empleado'];
 
-// Manejo del fichaje
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['tipo'])) {
     $tipo_fichaje = $_POST['tipo'];
     $fecha_hora = date("Y-m-d H:i:s");
@@ -23,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['tipo'])) {
     $os_name = isset($os_matches[1]) ? $os_matches[1] : 'Desconocido';
 
     try {
-        // Comprobar si ya existe un fichaje del mismo tipo en el día actual
         $sql = "select count(*) as total from log_horarios 
                 where numero_empleado = ? and tipo_fichaje = ? and date(fecha_hora) = ?";
         $stmt = $conexion->prepare($sql);
@@ -36,7 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['tipo'])) {
             exit();
         }
 
-        // Insertar el fichaje si no hay problemas
         $sql = "insert into log_horarios (numero_empleado, tipo_fichaje, fecha_hora, dispositivo, ip) values (?, ?, ?, ?, ?)";
         $stmt = $conexion->prepare($sql);
         $stmt->execute([$numero_empleado, $tipo_fichaje, $fecha_hora, $os_name, $ip_cliente]);
@@ -51,14 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['tipo'])) {
     }
 }
 
-// Manejo del filtro por fecha y tipo o reinicio
 $fecha_filtrada = isset($_POST['filtrar_fecha']) ? $_POST['filtrar_fecha'] : null;
 $tipo_filtrado = isset($_POST['filtrar_tipo']) ? $_POST['filtrar_tipo'] : null;
 $reiniciar_filtro = isset($_POST['reiniciar_filtro']);
 
 try {
     if ($reiniciar_filtro || (!$fecha_filtrada && !$tipo_filtrado)) {
-        // Si se presionó "Reset" o no hay filtros, cargar todos los registros
         $sql = "select fecha_hora, tipo_fichaje, dispositivo 
                 from log_horarios 
                 where numero_empleado = :numero_empleado 
@@ -66,7 +60,6 @@ try {
         $stmt = $conexion->prepare($sql);
         $stmt->bindParam(':numero_empleado', $numero_empleado, PDO::PARAM_INT);
     } elseif ($fecha_filtrada && !$tipo_filtrado) {
-        // Filtrar solo por fecha
         $sql = "select fecha_hora, tipo_fichaje, dispositivo 
                 from log_horarios 
                 where numero_empleado = :numero_empleado and date(fecha_hora) = :fecha_filtrada 
@@ -75,7 +68,6 @@ try {
         $stmt->bindParam(':numero_empleado', $numero_empleado, PDO::PARAM_INT);
         $stmt->bindParam(':fecha_filtrada', $fecha_filtrada, PDO::PARAM_STR);
     } elseif (!$fecha_filtrada && $tipo_filtrado) {
-        // Filtrar solo por tipo
         $sql = "select fecha_hora, tipo_fichaje, dispositivo 
                 from log_horarios 
                 where numero_empleado = :numero_empleado and tipo_fichaje = :tipo_filtrado 
@@ -84,7 +76,6 @@ try {
         $stmt->bindParam(':numero_empleado', $numero_empleado, PDO::PARAM_INT);
         $stmt->bindParam(':tipo_filtrado', $tipo_filtrado, PDO::PARAM_STR);
     } else {
-        // Filtrar por fecha y tipo
         $sql = "select fecha_hora, tipo_fichaje, dispositivo 
                 from log_horarios 
                 where numero_empleado = :numero_empleado and date(fecha_hora) = :fecha_filtrada and tipo_fichaje = :tipo_filtrado 
