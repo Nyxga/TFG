@@ -39,6 +39,11 @@
     <?php
     include '../log_horario.php';
 
+    if ($_SESSION['admin'] != 1) {
+        header('Location: ../inicio.php');
+        exit;
+    }
+
     if (isset($_POST['logout'])) {
         session_start();
         session_unset();
@@ -57,7 +62,7 @@
 
             <div class="dropdown-content">
                 <li>
-                    <a class="d-flex text-dark" href="../actualizar_perfil.php">Actualizar perfil<i class="bi bi-pencil-square px-1"></i></a>
+                    <a class="d-flex text-dark" href="#" onclick="location.href='../actualizar_perfil.php?usuario=' + <?php echo $_SESSION['numero_empleado']; ?>">Actualizar perfil<i class="bi bi-pencil-square px-1"></i></a>
                 </li>
                 <li>
                     <form method="POST" action="">
@@ -72,12 +77,6 @@
     </header>
 
     <main class="p-4">
-        <!-- <section class="d-flex justify-content-center text-center mt-4 mb-4">
-            <h1>
-                <div id="reloj"></div>
-            </h1>
-        </section> -->
-
 
         <section id="titulo_historial" class="d-flex mb-4">
             <h2>Panel administrativo de empleados</h2>
@@ -91,31 +90,33 @@
                     <tr>
                         <td>
                             <h5>
-                                <a href="../empleados.php" class="d-block text-decoration-none text-dark">
+                                <a href="./empleados.php" class="d-block text-decoration-none text-dark">
                                     <i class="bi bi-people-fill"></i>
-                                    <span>Empleados</span>
-                                    <!-- <?php echo $total_empleados ?> -->
+                                    <span class="text-start">Listar empleados</span>
                                 </a>
                             </h5>
                         </td>
                         <td>
                             <h5>
-                                <a href="#enlace2" class="d-block text-decoration-none text-dark">
-                                    Enlace 2
+                                <a href="./historial_fichajes.php" class="d-block text-decoration-none text-dark">
+                                    <i class="bi bi-clock-history"></i>
+                                    <span>Historial de fichajes</span>
                                 </a>
                             </h5>
                         </td>
                         <td>
                             <h5>
-                                <a href="#enlace3" class="d-block text-decoration-none text-dark">
-                                    Enlace 3
+                                <a href="./establecer_horarios.php" class="d-block text-decoration-none text-dark">
+                                    <i class="bi bi-calendar4-week"></i>
+                                    <span>Establecer horarios</span>
                                 </a>
                             </h5>
                         </td>
                         <td>
                             <h5>
-                                <a href="#enlace4" class="d-block text-decoration-none text-dark">
-                                    Enlace 4
+                                <a href="./registro.php" class="d-block text-decoration-none text-dark">
+                                    <i class="bi bi-clipboard2-check"></i>
+                                    <span>Registrar empleado</span>
                                 </a>
                             </h5>
                         </td>
@@ -127,38 +128,6 @@
 
 
     </main>
-
-
-    <!-- NO TOCAR -->
-    <script>
-        function actualizarFechaHora() {
-            const ahora = new Date();
-            const fecha = ahora.toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            const hora = ahora.toLocaleTimeString('es-ES', {
-                timeZone: 'Europe/Madrid',
-                hour12: false
-            });
-
-            document.getElementById('reloj').innerHTML = hora + '<br>' + fecha;
-        }
-
-        actualizarFechaHora();
-
-        setInterval(actualizarFechaHora, 1000);
-    </script>
-
-    <script>
-        if (document.getElementById('alert-success')) {
-            setTimeout(function() {
-                var alerta = new bootstrap.Alert(document.getElementById('alerta-success'));
-                alerta.close();
-            }, 5000);
-        }
-    </script>
 
     <script>
         window.addEventListener('beforeunload', function() {
