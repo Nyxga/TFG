@@ -9,12 +9,10 @@ body {
   background-color: #f1f3f8 !important;
 }
 
-#login,
-#form_registro {
+#login {
   height: 100vh;
 }
 
-#registro,
 #index .alerta-fija {
   position: fixed;
   top: 20px;
@@ -60,8 +58,6 @@ aside li:last-child {
 
   .dropdown-content li a {
     width: 140px;
-    text-align: center;
-    justify-content: center;
   }
 
   #inicio #reloj {
@@ -78,6 +74,10 @@ aside li:last-child {
 
   #inicio .dropbtn {
     padding: 10px;
+  }
+
+  #empleados #span_buscar {
+    display: none;
   }
 }
 
@@ -118,15 +118,15 @@ aside li:last-child {
     width: 100%;
     margin-bottom: 10px;
   }
-
-  #actualizar_perfil {
-    padding: 10px !important;
-  }
 }
 
 @media (max-width: 480px) {
   #empleados input {
     width: 100% !important;
+  }
+
+  #tabla_fichajes {
+    text-align: center !important;
   }
 }
 
@@ -315,6 +315,11 @@ a {
   width: 0% !important;
 }
 
-#actualizar_perfil {
-  padding: 40px;
+#historial_fichajes input {
+  height: 38px !important;
 }
+
+#historial_fichajes table {
+  border-collapse: separate;
+}
+
