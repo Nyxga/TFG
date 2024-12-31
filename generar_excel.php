@@ -58,10 +58,15 @@ if (!empty($_POST['filtros_sql'])) {
     }
 }
 
-// Crear datos para exportar
 $datos = [
-    ['<center><b>Nombre</b></center>', '<center><b>Apellidos</b></center>', '<center><b>Fecha y Hora</b></center>', 
-    '<center><b>Tipo de Fichaje</b></center>', '<center><b>Dispositivo</b></center>', '<center><b>Dirección IP</b></center>'],
+    [
+        '<center><b>Nombre</b></center>',
+        '<center><b>Apellidos</b></center>',
+        '<center><b>Fecha y Hora</b></center>',
+        '<center><b>Tipo de Fichaje</b></center>',
+        '<center><b>Dispositivo</b></center>',
+        '<center><b>Dirección IP</b></center>'
+    ],
 ];
 
 foreach ($fichajes as $fichaje) {
@@ -75,6 +80,18 @@ foreach ($fichajes as $fichaje) {
     ];
 }
 
-// Exportar el archivo Excel
-SimpleXLSXGen::fromArray($datos)->downloadAs('historial_fichajes.xlsx');
+$nombre_archivo = 'historial_fichajes_' . date('Y-m-d_H-i-s') . '.xlsx';
+$ruta_archivo = __DIR__ . '/temp/' . $nombre_archivo;
+
+if (!is_dir(__DIR__ . '/temp')) {
+    mkdir(__DIR__ . '/temp', 0777, true);
+}
+
+SimpleXLSXGen::fromArray($datos)->saveAs($ruta_archivo);
+
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment; filename="' . $nombre_archivo . '"');
+readfile($ruta_archivo);
+
+unlink($ruta_archivo);
 exit();
