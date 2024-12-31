@@ -87,11 +87,10 @@ if (!is_dir(__DIR__ . '/temp')) {
     mkdir(__DIR__ . '/temp', 0777, true);
 }
 
-SimpleXLSXGen::fromArray($datos)->saveAs($ruta_archivo);
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="' . $nombre_archivo . '"');
-readfile($ruta_archivo);
+header('Content-Disposition: attachment; filename="historial_fichajes_' . date('Y-m-d_H-i-s') . '.xlsx"');
+header('Cache-Control: max-age=0');
 
-unlink($ruta_archivo);
+echo SimpleXLSXGen::fromArray($datos)->download();
 exit();
