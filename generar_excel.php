@@ -80,10 +80,5 @@ foreach ($fichajes as $fichaje) {
     ];
 }
 
-// Generar y descargar el archivo directamente
-header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="historial_fichajes_' . date('Y-m-d_H-i-s') . '.xlsx"');
-header('Cache-Control: max-age=0');
-
-echo SimpleXLSXGen::fromArray($datos)->download();
+SimpleXLSXGen::fromArray($datos)->downloadAs('historial_fichajes.xlsx');
 exit();
