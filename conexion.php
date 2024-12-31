@@ -1,21 +1,18 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+require 'vendor/autoload.php';
 
-use Dotenv\Dotenv;
-
-// Cargar variables de entorno
-$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-try {
-    $conexion = new PDO(
-        'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'] . ';charset=utf8',
-        $_ENV['DB_USER'],
-        $_ENV['DB_PASSWORD']
-    );
+$host = $_ENV['DB_HOST'];
+$port = $_ENV['DB_PORT'];
+$dbname = $_ENV['DB_NAME'];
+$user = $_ENV['DB_USER'];
+$password = $_ENV['DB_PASSWORD'];
 
+try {
+    $conexion = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $user, $password);
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    die('Error al conectar con la base de datos: ' . $e->getMessage());
+    die('Error: ' . $e->getMessage());
 }
-?>
