@@ -80,14 +80,7 @@ foreach ($fichajes as $fichaje) {
     ];
 }
 
-$nombre_archivo = 'historial_fichajes_' . date('Y-m-d_H-i-s') . '.xlsx';
-$ruta_archivo = __DIR__ . '/temp/' . $nombre_archivo;
-
-if (!is_dir(__DIR__ . '/temp')) {
-    mkdir(__DIR__ . '/temp', 0777, true);
-}
-
-
+// Generar y descargar el archivo directamente
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment; filename="historial_fichajes_' . date('Y-m-d_H-i-s') . '.xlsx"');
 header('Cache-Control: max-age=0');
