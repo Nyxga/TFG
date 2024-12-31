@@ -122,7 +122,7 @@
 
                                 <label for="password">Nueva contraseña</label>
                                 <div class="input-group mb-4 w-auto">
-                                    <input type="password" id="password" name="password" class="form-control" required minlength="8">
+                                    <input type="password" id="password" name="password" class="form-control" required minlength="8" placeholder="Min. 8 carácteres">
                                     <span class="input-group-text">
                                         <i class="bi bi-eye-slash toggle-password" data-target="password"></i>
                                     </span>
@@ -130,7 +130,7 @@
 
                                 <label for="confirm_password">Confirmar nueva contraseña</label>
                                 <div class="input-group mb-4 w-auto">
-                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" required minlength="8">
+                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" required minlength="8" placeholder="Min. 8 carácteres">
                                     <span class="input-group-text">
                                         <i class="bi bi-eye-slash toggle-password" data-target="confirm_password"></i>
                                     </span>
