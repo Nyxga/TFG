@@ -323,3 +323,18 @@ a {
   border-collapse: separate;
 }
 
+#index {
+  background-image: url('../img/Orion.png');
+  background-repeat: no-repeat;
+  background-size: 90% 90%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 50% 80%;
+}
+
+@media (max-width: 480px) {
+  #index {
+      background-size: 350% 100%;
+  }
+}
+

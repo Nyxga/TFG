@@ -16,7 +16,7 @@
 
     <div id="login" class="d-flex align-items-center justify-content-center">
         <form action="index.php" method="POST">
-            <h1 class="text-center mb-4">Sistema de fichaje</h1>
+            <h2 class="text-center mb-4">Fichaje Orion</h2>
             <div class="mb-3">
                 <input type="username" id="username" name="username" class="form-control" placeholder="Nombre de usuario" required>
             </div>
