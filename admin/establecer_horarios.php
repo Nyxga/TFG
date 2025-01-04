@@ -20,7 +20,7 @@
 
     if ($usernameSeleccionado && $semanaSeleccionada && isset($_POST['cargar_horarios'])) {
         $semana = date('W', strtotime($semanaSeleccionada));
-        $año = date('Y', strtotime($semanaSeleccionada));
+        $año = date('o', strtotime($semanaSeleccionada));
 
         $sql = "SELECT dia_semana, hora_inicio, hora_fin 
                 FROM horarios_empleados he
