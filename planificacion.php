@@ -21,8 +21,9 @@
     }
 
     $numero_empleado = $_SESSION['numero_empleado'];
-    $semana_actual = intval((time() - strtotime('last Monday', strtotime('January 4'))) / 604800);
+    $semana_actual = date('W');
     $año_actual = date('Y');
+    
 
 
     try {
