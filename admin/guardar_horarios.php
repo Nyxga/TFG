@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $horarios = $_POST['horarios'];
     $semana = date('W', strtotime($_POST['semana']));
-    $año = date('Y', strtotime($_POST['semana']));
+    $año = date('o', strtotime($_POST['semana']));
 
     try {
         $stmt = $conexion->prepare("SELECT numero_empleado FROM empleados WHERE username = ?");
