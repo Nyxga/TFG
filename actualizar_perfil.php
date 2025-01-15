@@ -72,7 +72,7 @@
     ?>
 
     <header class="p-4 mb-0">
-        <a href="<?php echo $rol_sesion ? './admin/empleados.php' : './inicio.php'; ?>">
+        <a href="<?php echo $rol_sesion ? './admin/inicio.php' : './inicio.php'; ?>">
             <h6 class="text-dark"><i class="bi bi-house-fill text-dark"></i> Volver a inicio</h6>
         </a>
     </header>
